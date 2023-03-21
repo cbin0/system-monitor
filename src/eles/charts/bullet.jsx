@@ -9,45 +9,52 @@ import { ThemeContext } from '../../contexts/theme';
 //   100% { --bg-position: 100%; }
 // `;
 
-const BulletContainer = styled.div`
-  background: transparent;
-  height: 30px;
+const BulletContainer = styled.div(() => {
+  const { themeVars } = useContext(ThemeContext);
+  return `
+    background: transparent;
+    height: 30px;
 
-  // @property --border-angle {
-  //   syntax: '<angle>';
-  //   initial-value: 0deg;
-  //   inherits: false;
-  // }
+    > div {
+      border-color: ${themeVars.chartBgFill}
+    }
 
-  // @property --bg-position {
-  //   syntax: '<percent>';
-  //   initial-value: 0%;
-  //   inherits: false;
-  // }
+    // @property --border-angle {
+    //   syntax: '<angle>';
+    //   initial-value: 0deg;
+    //   inherits: false;
+    // }
 
-  :before,
-  :after {
-    content: '';
-    border-radius: inherit;
-    position: absolute;
-    inset: -4px;
-    z-index: 9;
-    background: linear-gradient(
-      // from var(--border-angle),
-      90deg,
-      var(--bullet-bg-color-1),
-      var(--bullet-bg-color-2),
-      var(--bullet-bg-color-3),
-      var(--bullet-bg-color-4)
-      // var(--bullet-bg-color-2),
-      // var(--bullet-bg-color-1)
-    );
-  }
+    // @property --bg-position {
+    //   syntax: '<percent>';
+    //   initial-value: 0%;
+    //   inherits: false;
+    // }
 
-  :after {
-    filter: blur(.2em);
-  }
-`;
+    :before,
+    :after {
+      content: '';
+      border-radius: inherit;
+      position: absolute;
+      inset: -4px;
+      z-index: 9;
+      background: linear-gradient(
+        // from var(--border-angle),
+        90deg,
+        var(--bullet-bg-color-1),
+        var(--bullet-bg-color-2),
+        var(--bullet-bg-color-3),
+        var(--bullet-bg-color-4)
+        // var(--bullet-bg-color-2),
+        // var(--bullet-bg-color-1)
+      );
+    }
+
+    :after {
+      filter: blur(.2em);
+    }
+  `;
+});
 
 export default function P({ className, options }) {
   const { themeVars } = useContext(ThemeContext);
@@ -66,7 +73,7 @@ export default function P({ className, options }) {
   });
   return (
     <BulletContainer className={`${className} relative p-0`}>
-      <div className={`relative z-10 h-full border-5 border-[${themeVars.chartBgFill}]`}>
+      <div className="relative z-10 h-full border-5">
         <ResponsiveBullet {...opt} />
       </div>
     </BulletContainer>
