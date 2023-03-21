@@ -9,15 +9,19 @@ const SingleDetail = styled.div.attrs({
     p-2 m-6 mb-8 mt-4 text-xl
     flex flex-row items-center items-stretch
   `
-})(() => `
-`);
+})(() => {
+  return `
+`;
+});
 
-SingleDetail.Left = styled.div.attrs((props) => ({
-  className: `
-    basis-6em flex-shrink-0 mr-6 mb-[-6px] rounded-lg
-    flex items-center justify-center text-stone-200
-  `
-}))(() => {
+SingleDetail.Left = styled.div.attrs((props) => {
+  return {
+    className: `
+      basis-6em flex-shrink-0 mr-6 mb-[-6px] rounded-lg
+      flex items-center justify-center text-stone-200
+    `
+  };
+})(() => {
   const c = `var(--${themeVarPrefix}-chartBgFill)`;
   return `
     background: ${c};
@@ -27,7 +31,15 @@ SingleDetail.Left = styled.div.attrs((props) => ({
 
 SingleDetail.Right = styled.div.attrs({
   className: 'flex-1'
-})(() => '');
+})(() => { return ''; });
+
+const MoreDetail = styled.span.attrs({
+  className: `
+    ml-4 text-base font-semibold
+    underline decoration-2
+    underline-offset-2
+  `
+})(() => {});
 
 export default function Cpu() {
   const { cpu } = useContext(SysDataContext);
@@ -83,7 +95,7 @@ export default function Cpu() {
           cpu.temperature
         ],
         markers: [
-          // 0,
+          70,
           90
         ]
       }]
@@ -91,7 +103,7 @@ export default function Cpu() {
   }, [cpu.temperature]);
 
   useEffect(() => {
-    const range = Math.round(cpu.voltage + 1 / 4);
+    const range = Math.round(cpu.voltage.value + 1 / 4);
     setVoltage({
       ...commonOpt,
       data: [{
@@ -105,14 +117,14 @@ export default function Cpu() {
           range * 4
         ],
         measures: [
-          cpu.voltage
+          cpu.voltage.value
         ],
         markers: [
           // 0
         ]
       }]
     });
-  }, [cpu.voltage]);
+  }, [cpu.voltage.value]);
 
   useEffect(() => {
     const range = Math.floor(cpu.power.package.max / 4);
@@ -169,33 +181,24 @@ export default function Cpu() {
             align-text-bottom text-3xl text-cyan-500"
           />
           Power
-          <span className="text-base font-semibold">
-            <span className="
-              ml-4 pr-2 mr-2
-              underline decoration-2 decoration-blue-400
-              underline-offset-2"
-            >
-              Memory:
-              {' '}
-              {cpu.power.memory.value}
-              w
-            </span>
-            <span className="
-              underline decoration-2 decoration-indigo-400
-              underline-offset-2"
-            >
-              Cores:
-              {' '}
-              {cpu.power.cores.value}
-              w
-            </span>
-          </span>
+          <MoreDetail className=" decoration-blue-400">
+            Memory:
+            {' '}
+            {cpu.power.memory.value}
+            w
+          </MoreDetail>
+          <MoreDetail className=" decoration-indigo-400">
+            Cores:
+            {' '}
+            {cpu.power.cores.value}
+            w
+          </MoreDetail>
           <Bullet options={power} className="mt-3" />
         </SingleDetail.Right>
       </SingleDetail>
       <SingleDetail type="voltage">
         <SingleDetail.Left>
-          <span className="text-4xl">{cpu.voltage.toFixed(1)}</span>
+          <span className="text-4xl">{cpu.voltage.value.toFixed(1)}</span>
           <span className="align-text-top m-[-0.5em_0_0_0.5em]">V</span>
         </SingleDetail.Left>
         <SingleDetail.Right>
@@ -204,6 +207,14 @@ export default function Cpu() {
             align-text-bottom text-3xl text-amber-500"
           />
           Voltage
+          <span className="text-base font-semibold">
+            <MoreDetail className=" decoration-amber-300">
+              Max:
+              {' '}
+              {cpu.voltage.max}
+              v
+            </MoreDetail>
+          </span>
           <Bullet options={voltage} className="mt-3" />
         </SingleDetail.Right>
       </SingleDetail>

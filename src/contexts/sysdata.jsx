@@ -20,6 +20,7 @@ export function SysDataProvider({ children }) {
     let tio = initTimeout;
     const getSysInfo = async () => {
       try {
+        // TODO: read configuration
         const info = await fetch('http://localhost:8085/data.json', {
           method: 'GET',
           timeout: 30
@@ -51,7 +52,8 @@ export function SysDataProvider({ children }) {
             sysData.cpu.usage = parseFloat(d.Value);
           } else if (d.Type === 'Voltage') {
             if (d.Text === 'CPU Core') {
-              sysData.cpu.voltage = parseFloat(d.Value);
+              sysData.cpu.voltage.value = parseFloat(d.Value);
+              sysData.cpu.voltage.max = parseFloat(d.Max);
             } else if (ctx === 'cpu') {
               const core = getCore(d.Text);
               core.voltage = parseFloat(d.Value);

@@ -26,5 +26,5 @@ export function ThemeProvider({ children }) {
   );
 }
 
-// TODO: read config file
+// TODO: read configuration
 theme.themeName = 'dark';

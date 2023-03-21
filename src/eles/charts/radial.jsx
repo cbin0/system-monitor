@@ -6,7 +6,7 @@ export default function P({ options }) {
   const opt = defaults(options, {
     data: [],
     maxValue: 'auto',
-    valueFormat: (v) => `${v}`,
+    valueFormat: (v) => { return `${v}`; },
     endAngle: 360,
     innerRadius: 0.55,
     padding: 0.6,

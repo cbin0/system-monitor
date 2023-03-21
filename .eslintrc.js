@@ -17,10 +17,12 @@ module.exports = {
     'react'
   ],
   rules: {
+    'no-unused-vars': 1,
     'import/extensions': 0,
     // ['error', { ignorePackages: true, pattern: { jsx: 'always' } }],
     'import/no-extraneous-dependencies': 0,
     'comma-dangle': ['error', 'never'],
+    'arrow-body-style': ['error', 'always'],
     'no-underscore-dangle': ['error', { allowAfterThis: true }],
     'no-param-reassign': ['error', { props: false }],
     'react/prop-types': 0,

@@ -9,6 +9,27 @@ import { ThemeContext } from '../../contexts/theme';
 //   100% { --bg-position: 100%; }
 // `;
 
+const Mark = styled.div.attrs(({ value }) => {
+  return {
+    className: 'absolute text-center'
+  };
+})(({ value, max }) => {
+  return `
+    width: 80px;
+    top: -46px;
+    left: calc(${(value * 100) / max}% - 40px) ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    :before {
+      content: '${value}'
+    }
+    > i {
+      margin-top: -10px;
+    }
+  `;
+});
+
 const BulletContainer = styled.div(() => {
   const { themeVars } = useContext(ThemeContext);
   return `
@@ -73,8 +94,25 @@ export default function P({ className, options }) {
   });
   return (
     <BulletContainer className={`${className} relative p-0`}>
-      <div className="relative z-10 h-full border-5">
+      <div className="relative z-10 h-full border-5 relative">
         <ResponsiveBullet {...opt} />
+        <div className="absolute inset-0">
+          {
+            opt.data[0] && opt.data[0].markers && opt.data[0].markers.map(
+              (m) => {
+                return (
+                  <Mark
+                    value={m}
+                    key={m}
+                    max={opt.data[0].ranges[opt.data[0].ranges.length - 1]}
+                  >
+                    <i className="i-ri-arrow-down-s-line" />
+                  </Mark>
+                );
+              }
+            )
+          }
+        </div>
       </div>
     </BulletContainer>
   );

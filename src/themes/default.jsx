@@ -1,5 +1,5 @@
 export default {
-  main: '',
+  main: 'h-screen',
   chartBgFill: '#333',
   'cpu-usage-rs-color-1': '#51ff4e',
   'cpu-usage-rs-color-2': '#96ff22',
