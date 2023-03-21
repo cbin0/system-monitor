@@ -1,0 +1,58 @@
+{
+  "name": "tauri-app",
+  "private": true,
+  "version": "0.0.1",
+  "browserList": [
+    "last 2 major versions",
+    "not dead"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri",
+    "lint": "eslint ./src/"
+  },
+  "dependencies": {
+    "@headlessui/react": "^1.7.13",
+    "@nivo/bullet": "^0.80.0",
+    "@nivo/core": "^0.80.0",
+    "@nivo/radial-bar": "^0.80.0",
+    "@tauri-apps/api": "^1.2.0",
+    "lodash": "^4.17.21",
+    "mobx": "^6.8.0",
+    "mobx-react-lite": "^3.4.3",
+    "prop-types": "^15.8.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.9"
+  },
+  "devDependencies": {
+    "@iconify-json/bi": "^1.1.15",
+    "@iconify-json/carbon": "^1.1.16",
+    "@iconify-json/ic": "^1.1.13",
+    "@iconify-json/icon-park": "^1.1.10",
+    "@iconify-json/icon-park-outline": "^1.1.10",
+    "@iconify-json/ph": "^1.1.5",
+    "@iconify-json/radix-icons": "^1.1.10",
+    "@iconify-json/ri": "^1.1.5",
+    "@iconify-json/tabler": "^1.1.68",
+    "@tauri-apps/cli": "^1.2.3",
+    "@types/lodash": "^4.14.191",
+    "@types/node": "^18.7.10",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "@unocss/preset-icons": "^0.50.6",
+    "@unocss/vite": "^0.50.6",
+    "@vitejs/plugin-react": "^3.0.0",
+    "eslint": "^7.32.0 || ^8.2.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.25.3",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "polished": "^4.2.2",
+    "unocss": "^0.50.6",
+    "vite": "^4.0.0"
+  }
+}
