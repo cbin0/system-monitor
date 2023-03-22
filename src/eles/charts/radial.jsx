@@ -1,9 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import styled from 'styled-components';
 import { ResponsiveRadialBar } from '@nivo/radial-bar';
-import defaults from 'lodash/defaults';
+import { ThemeContext } from '../../contexts/theme';
 
-export default function P({ options }) {
-  const opt = defaults(options, {
+export const RadialCenter = styled.div.attrs(() => {
+  return {
+    className: 'absolute rounded-full cxy-center'
+  };
+})(() => {
+  const { themeVars } = useContext(ThemeContext);
+  return `
+    inset: 10.8%;
+    background: linear-gradient(${themeVars.chartBgFill}, ${themeVars.chartBgFill});
+    box-shadow: 0px 0px 60px -5px #444;
+  `;
+});
+
+export default function P({
+  className, className2, options, children
+}) {
+  const opt = {
     data: [],
     maxValue: 'auto',
     valueFormat: (v) => { return `${v}`; },
@@ -16,9 +32,15 @@ export default function P({ options }) {
     },
     tracksColor: 'rgba(0, 0, 0, 0.15)',
     labelsTextColor: { theme: 'labels.text.fill' },
-    legends: []
-  });
+    legends: [],
+    ...options
+  };
   return (
-    <ResponsiveRadialBar {...opt} />
+    <div className={`${className || ''} square`}>
+      <div className={`${className2 || ''} square relative m-auto`}>
+        {children}
+        <ResponsiveRadialBar {...opt} />
+      </div>
+    </div>
   );
 }

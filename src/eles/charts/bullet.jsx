@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
 import { ResponsiveBullet } from '@nivo/bullet';
-import defaults from 'lodash/defaults';
 import styled, { keyframes } from 'styled-components';
 import { ThemeContext } from '../../contexts/theme';
 
@@ -10,31 +9,30 @@ import { ThemeContext } from '../../contexts/theme';
 // `;
 
 const Mark = styled.div.attrs(({ value }) => {
-  return {
-    className: 'absolute text-center'
-  };
-})(({ value, max }) => {
+  return {};
+})(({ title, value, max }) => {
   return `
-    width: 80px;
-    top: -46px;
-    left: calc(${(value * 100) / max}% - 40px) ;
+    width: 100px;
+    top: -50px;
+    left: calc(${(value * 100) / max}% - 50px) ;
     display: flex;
     flex-direction: column;
     align-items: center;
     :before {
-      content: '${value}'
+      content: '${title}'
     }
     > i {
-      margin-top: -10px;
+      margin-top: -7px;
     }
   `;
 });
 
-const BulletContainer = styled.div(() => {
+const BulletContainer = styled.div.attrs({
+  className: ''
+})(() => {
   const { themeVars } = useContext(ThemeContext);
   return `
-    background: transparent;
-    height: 30px;
+    height: 100%;
 
     > div {
       border-color: ${themeVars.chartBgFill}
@@ -79,7 +77,7 @@ const BulletContainer = styled.div(() => {
 
 export default function P({ className, options }) {
   const { themeVars } = useContext(ThemeContext);
-  const opt = defaults(options, {
+  const opt = {
     data: [],
     margin: {
       top: 50, right: 90, bottom: 50, left: 90
@@ -90,21 +88,29 @@ export default function P({ className, options }) {
     rangeBorderColor: { from: 'color', modifiers: [] },
     measureSize: 0.2,
     rangeColors: [themeVars.chartBgFill],
-    measureColors: 'seq:orange_red'
-  });
+    measureColors: 'seq:orange_red',
+    ...options
+  };
   return (
-    <BulletContainer className={`${className} relative p-0`}>
-      <div className="relative z-10 h-full border-5 relative">
-        <ResponsiveBullet {...opt} />
-        <div className="absolute inset-0">
-          {
+    <div className={`${className || ''} h-full relative p2`}>
+      <BulletContainer className="h-full relative bg-transparent">
+        <div className="relative z-10 h-full border-5 relative">
+          <ResponsiveBullet {...opt} />
+          <div className="absolute inset-0">
+            {
             opt.data[0] && opt.data[0].markers && opt.data[0].markers.map(
-              (m) => {
+              (m, i) => {
+                const data = opt.data[0];
+                let title = data.markersTitles && data.markersTitles[i];
+                if (title && title.call) title = title.call(data, m);
+                else title = m;
                 return (
                   <Mark
+                    className="absolute text-center"
                     value={m}
+                    title={title}
                     key={m}
-                    max={opt.data[0].ranges[opt.data[0].ranges.length - 1]}
+                    max={data.ranges[data.ranges.length - 1]}
                   >
                     <i className="i-ri-arrow-down-s-line" />
                   </Mark>
@@ -112,8 +118,9 @@ export default function P({ className, options }) {
               }
             )
           }
+          </div>
         </div>
-      </div>
-    </BulletContainer>
+      </BulletContainer>
+    </div>
   );
 }

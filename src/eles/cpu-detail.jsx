@@ -6,8 +6,8 @@ import Bullet from './charts/bullet.jsx';
 
 const SingleDetail = styled.div.attrs({
   className: `
-    p-2 m-6 mb-8 mt-4 text-xl
-    flex flex-row items-center items-stretch
+    m-8 text-xl
+    flex flex-row items-stretch
   `
 })(() => {
   return `
@@ -17,8 +17,8 @@ const SingleDetail = styled.div.attrs({
 SingleDetail.Left = styled.div.attrs((props) => {
   return {
     className: `
-      basis-6em flex-shrink-0 mr-6 mb-[-6px] rounded-lg
-      flex items-center justify-center text-stone-200
+      basis-6em flex-shrink-0 mr-6 rounded-lg
+      cxy-center text-stone-200
     `
   };
 })(() => {
@@ -26,12 +26,23 @@ SingleDetail.Left = styled.div.attrs((props) => {
   return `
     background: ${c};
     box-shadow: 0 0 20px -4px ${c};
+    > :nth-child(2) {
+      vertical-align: text-top;
+      margin: -0.5em 0 0 0.5em;
+    }
   `;
 });
 
 SingleDetail.Right = styled.div.attrs({
-  className: 'flex-1'
-})(() => { return ''; });
+  className: 'flex-1 overflow-hidden'
+})(() => {
+  return `
+    > :nth-child(1) {
+      vertical-align: text-bottom;
+      margin-right: 0.2em;
+    }
+`;
+});
 
 const MoreDetail = styled.span.attrs({
   className: `
@@ -39,6 +50,10 @@ const MoreDetail = styled.span.attrs({
     underline decoration-2
     underline-offset-2
   `
+})(() => {});
+
+const BulletChart = styled.div.attrs({
+  className: 'h-11 mt-3'
 })(() => {});
 
 export default function Cpu() {
@@ -103,7 +118,7 @@ export default function Cpu() {
   }, [cpu.temperature]);
 
   useEffect(() => {
-    const range = Math.round(cpu.voltage.value + 1 / 4);
+    const range = Math.ceil(cpu.voltage.value) / 4;
     setVoltage({
       ...commonOpt,
       data: [{
@@ -120,7 +135,12 @@ export default function Cpu() {
           cpu.voltage.value
         ],
         markers: [
-          // 0
+          cpu.voltage.max
+        ],
+        markersTitles: [
+          (v) => {
+            return `${v.toFixed(1)}`;
+          }
         ]
       }]
     });
@@ -146,7 +166,10 @@ export default function Cpu() {
           cpu.power.memory.value
         ],
         markers: [
-          // 0
+          cpu.power.package.max
+        ],
+        markersTitles: [
+          (v) => { return `${v}`; }
         ]
       }]
     });
@@ -163,22 +186,24 @@ export default function Cpu() {
         </SingleDetail.Left>
         <SingleDetail.Right>
           <i className="
-            i-carbon-temperature-celsius mr-2
-            align-text-bottom text-3xl text-fuchsia-400"
+            i-carbon-temperature-celsius
+            text-3xl text-fuchsia-400"
           />
           Temp.
-          <Bullet options={temp} className="mt-3" />
+          <BulletChart>
+            <Bullet options={temp} />
+          </BulletChart>
         </SingleDetail.Right>
       </SingleDetail>
       <SingleDetail type="power">
         <SingleDetail.Left>
           <span className="text-4xl">{cpu.power.package.value.toFixed(0)}</span>
-          <span className="align-text-top m-[-0.5em_0_0_0.5em]">W</span>
+          <span className="">W</span>
         </SingleDetail.Left>
         <SingleDetail.Right>
           <i className="
-            i-ic-round-power mr-2
-            align-text-bottom text-3xl text-cyan-500"
+            i-ic-round-power
+            text-3xl text-cyan-500"
           />
           Power
           <MoreDetail className=" decoration-blue-400">
@@ -193,19 +218,18 @@ export default function Cpu() {
             {cpu.power.cores.value}
             w
           </MoreDetail>
-          <Bullet options={power} className="mt-3" />
+          <BulletChart>
+            <Bullet options={power} />
+          </BulletChart>
         </SingleDetail.Right>
       </SingleDetail>
       <SingleDetail type="voltage">
         <SingleDetail.Left>
           <span className="text-4xl">{cpu.voltage.value.toFixed(1)}</span>
-          <span className="align-text-top m-[-0.5em_0_0_0.5em]">V</span>
+          <span className="">V</span>
         </SingleDetail.Left>
         <SingleDetail.Right>
-          <i className="
-            i-bi-lightning-fill mr-2
-            align-text-bottom text-3xl text-amber-500"
-          />
+          <i className="i-bi-lightning-fill text-3xl text-amber-500" />
           Voltage
           <span className="text-base font-semibold">
             <MoreDetail className=" decoration-amber-300">
@@ -215,7 +239,9 @@ export default function Cpu() {
               v
             </MoreDetail>
           </span>
-          <Bullet options={voltage} className="mt-3" />
+          <BulletChart>
+            <Bullet options={voltage} />
+          </BulletChart>
         </SingleDetail.Right>
       </SingleDetail>
     </div>

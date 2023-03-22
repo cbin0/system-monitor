@@ -9,6 +9,7 @@ import cb from '@iconify-json/carbon/icons.json';
 import ic from '@iconify-json/ic/icons.json';
 import rdi from '@iconify-json/radix-icons/icons.json';
 import ipo from '@iconify-json/icon-park-outline/icons.json';
+import svgspinner from '@iconify-json/svg-spinners';
 
 export default {
   theme: {
@@ -26,12 +27,13 @@ export default {
         'vertical-align': 'midde'
       },
       collections: {
-        bi, ip, ipo, ph, ri, rdi, tb, cb, ic
+        bi, ip, ipo, ph, ri, rdi, tb, cb, ic, svgspinner
       }
     })
   ],
   preflights: [{
-    getCSS: () => `
+    getCSS: () => {
+      return `
       :root {
         --intel-main-color: #007cc1;
         --amd-main-color: #ed1f23;
@@ -42,8 +44,25 @@ export default {
         --bullet-bg-color-3: #ff5c5c;
         --bullet-bg-color-4: #f72d2d;
       }
-    `
+    `;
+    }
   }],
   rules: [
+    // content center
+    [/^cxy-center$/, () => {
+      return {
+        display: 'flex',
+        'flex-wrap': 'wrap',
+        'align-items': 'center',
+        'justify-content': 'center'
+      };
+    }],
+    // a square in his first parent
+    [/^square$/, ([c]) => {
+      return {
+        'aspect-ratio': '1 / 1',
+        'max-height': '100%'
+      };
+    }]
   ]
 };

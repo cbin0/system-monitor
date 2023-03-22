@@ -1,5 +1,5 @@
 import React, {
-  createContext, useEffect
+  createContext, useEffect, useRef
 } from 'react';
 import { fetch } from '@tauri-apps/api/http';
 import { action } from 'mobx';
@@ -11,13 +11,17 @@ const sysData = createSysData(theme);
 export const SysDataContext = createContext(sysData);
 
 export function SysDataProvider({ children }) {
-  useEffect(() => {
+  const i = useRef({
+    interval: null,
     // max timeout
-    const tioMax = 4000;
-    const initTimeout = 1500;
-    let i;
+    tioMax: 4000,
+    initTimeout: 1500,
+    step: 200,
     // timeout
-    let tio = initTimeout;
+    tio: 1500
+  });
+  useEffect(() => {
+    const ii = i.current;
     const getSysInfo = async () => {
       try {
         // TODO: read configuration
@@ -82,16 +86,16 @@ export function SysDataProvider({ children }) {
           });
         });
         resolve(info.data);
-        tio = initTimeout;
+        ii.tio = ii.initTimeout;
       } catch (error) {
         console.error('error ->', error);
-        if (tio < tioMax) tio += 200;
+        if (ii.tio < ii.tioMax) ii.tio += ii.step;
       }
-      i = setTimeout(getSysInfo, tio);
+      ii.interval = setTimeout(getSysInfo, ii.tio);
     };
     getSysInfo();
     return () => {
-      clearTimeout(i);
+      clearTimeout(ii.interval);
     };
   }, []);
 

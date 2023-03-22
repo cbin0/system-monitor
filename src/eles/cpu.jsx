@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { SysDataContext } from '../contexts/sysdata.jsx';
 import { ThemeContext } from '../contexts/theme.jsx';
-import Radial from './charts/radial.jsx';
+import Radial, { RadialCenter } from './charts/radial.jsx';
 import CpuDetail from './cpu-detail.jsx';
 
 const Cpuname = styled.div(() => {
@@ -26,20 +26,11 @@ const Cpuname = styled.div(() => {
     }`;
 });
 
-const ChartCenter = styled.div(() => {
-  const { themeVars } = useContext(ThemeContext);
-  return `
-    inset: 10.8%;
-    background: linear-gradient(${themeVars.chartBgFill}, ${themeVars.chartBgFill});
-    box-shadow: 0px 0px 60px -5px #444;
-  `;
-});
-
 function Card({ className, children }) {
   return (
     <div className={`
       ${className || ''}
-      rounded-md h-96 flex flex-col shadow-3xl bg-opi backdrop-blur`}
+      rounded-md shadow-3xl bg-opi backdrop-blur`}
     >
       {children}
     </div>
@@ -83,8 +74,9 @@ export default observer(() => {
 
   return (
     <div className="p-4 flex grid-cols-3 gap-4">
-      <Card className="basis-80 flex-shrink-0">
-        <Cpuname className={`${themeVars.cpuNameBg}`}>
+      {/* TODO: read configure for width */}
+      <Card className="w-90 shrink-0 resize overflow-hidden">
+        <Cpuname className={`${themeVars.cpuNameBg} h-[90px] w-full`}>
           <i className="i-ph-cpu text-2xl align-text-bottom" />
           <span className="text-lg pl-2">{cpu.name}</span>
           <div className="pl-2 ">
@@ -93,23 +85,29 @@ export default observer(() => {
             <span className="text-slate-400">{motherBoard}</span>
           </div>
         </Cpuname>
-        <div className={`
-          ${themeVars.cardBg}
-          rounded-b-inherit
-          grow-1 shrink-0 pt-6 backdrop-blur backdrop-opacity-50`}
+        <div
+          className={`
+            rounded-b-inherit ${themeVars.cardBg}
+            grow-1 shrink-0 backdrop-blur backdrop-opacity-50
+            h-[calc(100%-90px)]
+          `}
         >
-          <div className="relative m-auto w-60 h-60">
-            <ChartCenter className="absolute flex rounded-full items-center justify-center">
+          <Radial
+            options={cpuUsageChart}
+            className="w-full absolute top-[50%] translate-y-[-50%]"
+            // className="m-auto"
+            className2="scale-90"
+          >
+            <RadialCenter>
               <span className="text-4xl text-slate-200">
                 {cpu.usage}
                 <span className="text-xl align-bottom ml-1">%</span>
               </span>
-            </ChartCenter>
-            <Radial options={cpuUsageChart} />
-          </div>
+            </RadialCenter>
+          </Radial>
         </div>
       </Card>
-      <Card className={`rounded basis-40 flex-1 flex-shrink-0 ${themeVars.cardBg}`}>
+      <Card className={`basis-80 flex-1 flex-shrink-0 flex flex-col ${themeVars.cardBg}`}>
         <CpuDetail />
       </Card>
     </div>

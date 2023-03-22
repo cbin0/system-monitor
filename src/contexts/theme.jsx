@@ -12,19 +12,16 @@ export const ThemeContext = createContext(theme);
 export function ThemeProvider({ children }) {
   const ref = useRef(null);
   useEffect(() => {
-    if (!ref.current) return;
+    const el = ref.current || document.body;
     themeEle.setAttribute('type', 'text/css');
     themeEle.setAttribute('scoped', '');
-    ref.current.appendChild(themeEle);
+    el.appendChild(themeEle);
   }, []);
   return (
     <div ref={ref}>
       <ThemeContext.Provider value={theme}>
-        {theme.loaded && children}
+        {children}
       </ThemeContext.Provider>
     </div>
   );
 }
-
-// TODO: read configuration
-theme.themeName = 'dark';
