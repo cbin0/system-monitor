@@ -9,7 +9,9 @@ import { ThemeContext } from '../../contexts/theme';
 // `;
 
 const Mark = styled.div.attrs(({ value }) => {
-  return {};
+  return {
+    className: 'absolute text-center'
+  };
 })(({ title, value, max }) => {
   return `
     width: 100px;
@@ -28,7 +30,7 @@ const Mark = styled.div.attrs(({ value }) => {
 });
 
 const BulletContainer = styled.div.attrs({
-  className: ''
+  className: 'h-full relative bg-transparent'
 })(() => {
   const { themeVars } = useContext(ThemeContext);
   return `
@@ -93,12 +95,11 @@ export default function P({ className, options }) {
   };
   return (
     <div className={`${className || ''} h-full relative p2`}>
-      <BulletContainer className="h-full relative bg-transparent">
+      <BulletContainer>
         <div className="relative z-10 h-full border-5 relative">
           <ResponsiveBullet {...opt} />
           <div className="absolute inset-0">
-            {
-            opt.data[0] && opt.data[0].markers && opt.data[0].markers.map(
+            { opt.data[0] && opt.data[0].markers && opt.data[0].markers.map(
               (m, i) => {
                 const data = opt.data[0];
                 let title = data.markersTitles && data.markersTitles[i];
@@ -106,7 +107,6 @@ export default function P({ className, options }) {
                 else title = m;
                 return (
                   <Mark
-                    className="absolute text-center"
                     value={m}
                     title={title}
                     key={m}
@@ -116,8 +116,7 @@ export default function P({ className, options }) {
                   </Mark>
                 );
               }
-            )
-          }
+            )}
           </div>
         </div>
       </BulletContainer>

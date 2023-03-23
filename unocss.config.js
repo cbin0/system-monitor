@@ -47,6 +47,9 @@ export default {
     `;
     }
   }],
+  shortcuts: [{
+    card: 'rounded-md shadow-3xl backdrop-blur'
+  }],
   rules: [
     // content center
     [/^cxy-center$/, () => {
@@ -56,13 +59,13 @@ export default {
         'align-items': 'center',
         'justify-content': 'center'
       };
-    }],
+    }, { layer: 'utilities' }],
     // a square in his first parent
     [/^square$/, ([c]) => {
       return {
         'aspect-ratio': '1 / 1',
         'max-height': '100%'
       };
-    }]
+    }, { layer: 'utilities' }]
   ]
 };

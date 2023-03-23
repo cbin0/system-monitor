@@ -5,7 +5,8 @@ import { observer } from 'mobx-react-lite';
 import { SysDataContext } from '../contexts/sysdata.jsx';
 import { ThemeContext } from '../contexts/theme.jsx';
 import Radial, { RadialCenter } from './charts/radial.jsx';
-import CpuDetail from './cpu-detail.jsx';
+import CpuDetail from './cpu-detail/index.jsx';
+import Cores from './cores.jsx';
 
 const Cpuname = styled.div(() => {
   const { cpu } = useContext(SysDataContext);
@@ -28,10 +29,7 @@ const Cpuname = styled.div(() => {
 
 function Card({ className, children }) {
   return (
-    <div className={`
-      ${className || ''}
-      rounded-md shadow-3xl bg-opi backdrop-blur`}
-    >
+    <div className={`${className || ''} card`}>
       {children}
     </div>
   );
@@ -73,22 +71,21 @@ export default observer(() => {
   };
 
   return (
-    <div className="p-4 flex grid-cols-3 gap-4">
-      {/* TODO: read configure for width */}
-      <Card className="w-90 shrink-0 resize overflow-hidden">
+    <div className="p-4 flex flex-wrap gap-4">
+      {/* TODO: read configure for width & height */}
+      <Card className="w-90 h-110 shrink-0 resize overflow-hidden">
         <Cpuname className={`${themeVars.cpuNameBg} h-[90px] w-full`}>
           <i className="i-ph-cpu text-2xl align-text-bottom" />
           <span className="text-lg pl-2">{cpu.name}</span>
           <div className="pl-2 ">
             <i className="i-radix-icons-corner-bottom-left mr-1 text-xl" />
-            {/* <span className="mr-2">Mother board:</span> */}
             <span className="text-slate-400">{motherBoard}</span>
           </div>
         </Cpuname>
         <div
           className={`
             rounded-b-inherit ${themeVars.cardBg}
-            grow-1 shrink-0 backdrop-blur backdrop-opacity-50
+            backdrop-blur backdrop-opacity-50
             h-[calc(100%-90px)]
           `}
         >
@@ -107,8 +104,11 @@ export default observer(() => {
           </Radial>
         </div>
       </Card>
-      <Card className={`basis-80 flex-1 flex-shrink-0 flex flex-col ${themeVars.cardBg}`}>
+      <Card className={`basis-150 flex-1 flex-shrink-0 flex flex-col ${themeVars.cardBg}`}>
         <CpuDetail />
+      </Card>
+      <Card className="w-full">
+        <Cores />
       </Card>
     </div>
   );

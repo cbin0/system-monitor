@@ -1,6 +1,6 @@
 import { makeAutoObservable } from 'mobx';
 
-export default (theme) => {
+export default () => {
   return makeAutoObservable({
     motherBoard: '',
     cpu: {
