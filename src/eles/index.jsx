@@ -1,5 +1,5 @@
 import React, {} from 'react';
-import Cpu from './cpu.jsx';
+import Cpu from './cpu';
 
 export default function Index() {
   return (

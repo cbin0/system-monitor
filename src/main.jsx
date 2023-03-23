@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { observer } from 'mobx-react-lite';
-import { theme, ThemeProvider } from './contexts/theme.jsx';
-import App from './app.jsx';
+import { theme, ThemeProvider } from 'contexts/theme';
+import App from './app';
 import '@unocss/reset/tailwind.css';
 // eslint-disable-next-line import/no-unresolved
 import 'virtual:uno.css';

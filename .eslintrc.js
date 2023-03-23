@@ -13,6 +13,16 @@ module.exports = {
     ecmaVersion: 'latest',
     sourceType: 'module'
   },
+  settings: {
+    'import/resolver': {
+      alias: {
+        map: [
+          ['contexts', './src/contexts'],
+          ['store', './src/store']
+        ]
+      }
+    }
+  },
   plugins: [
     'react'
   ],

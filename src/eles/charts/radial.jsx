@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { ResponsiveRadialBar } from '@nivo/radial-bar';
-import { ThemeContext } from '../../contexts/theme';
+import { ThemeContext } from 'contexts/theme';
 
 export const RadialCenter = styled.div.attrs(() => {
   return {

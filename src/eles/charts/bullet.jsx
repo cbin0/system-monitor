@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { ResponsiveBullet } from '@nivo/bullet';
 import styled, { keyframes } from 'styled-components';
-import { ThemeContext } from '../../contexts/theme';
+import { ThemeContext } from 'contexts/theme';
 
 // const borderRotation = keyframes`
 //   0% { --bg-position: 0%; }

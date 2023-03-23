@@ -2,9 +2,9 @@ import React, { useContext } from 'react';
 // import { invoke } from '@tauri-apps/api/tauri';
 // import reactLogo from './assets/react.svg';
 import { observer } from 'mobx-react-lite';
-import Eles from './eles/index.jsx';
-import { ThemeContext } from './contexts/theme.jsx';
-import { SysDataProvider } from './contexts/sysdata.jsx';
+import { ThemeContext } from 'contexts/theme';
+import { SysDataProvider } from 'contexts/sysdata';
+import Eles from './eles/index';
 
 export default observer(() => {
   const theme = useContext(ThemeContext);

@@ -1,5 +1,5 @@
 import styled, { } from 'styled-components';
-import { themeVarPrefix } from '../../store/theme';
+import { themeVarPrefix } from 'store/theme';
 
 export const SingleDetail = styled.div.attrs({
   className: `

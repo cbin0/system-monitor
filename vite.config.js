@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import path from 'path';
 import react from '@vitejs/plugin-react';
 import unocss from '@unocss/vite';
 
@@ -8,6 +9,13 @@ export default defineConfig({
     unocss(),
     react()
   ],
+
+  resolve: {
+    alias: {
+      contexts: path.resolve(__dirname, 'src/contexts'),
+      store: path.resolve(__dirname, 'src/store')
+    }
+  },
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors

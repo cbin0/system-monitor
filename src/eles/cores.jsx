@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
-import { SysDataContext } from '../contexts/sysdata';
+import { SysDataContext } from 'contexts/sysdata';
 
 export default function C() {
   const { cpu } = useContext(SysDataContext);
   return (
-    <div>
+    <div className="">
       cores:
       {' '}
       {cpu.cores.length}

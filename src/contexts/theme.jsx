@@ -1,7 +1,7 @@
 import React, {
   createContext, useEffect, useRef
 } from 'react';
-import createTheme from '../store/theme';
+import createTheme from 'store/theme';
 
 const themeEle = document.createElement('style');
 

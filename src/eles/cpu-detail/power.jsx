@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { SysDataContext } from '../../contexts/sysdata.jsx';
-import { SingleDetail, BulletChart, MoreDetail } from './partials.jsx';
-import Bullet from '../charts/bullet.jsx';
+import { SysDataContext } from 'contexts/sysdata';
+import { SingleDetail, BulletChart, MoreDetail } from './partials';
+import Bullet from '../charts/bullet';
 
 export default function A({ commonOpt }) {
   const { cpu } = useContext(SysDataContext);

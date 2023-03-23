@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import { lighten, darken } from 'polished';
 import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
-import { SysDataContext } from '../contexts/sysdata.jsx';
-import { ThemeContext } from '../contexts/theme.jsx';
-import Radial, { RadialCenter } from './charts/radial.jsx';
-import CpuDetail from './cpu-detail/index.jsx';
-import Cores from './cores.jsx';
+import { SysDataContext } from 'contexts/sysdata';
+import { ThemeContext } from 'contexts/theme';
+import Radial, { RadialCenter } from './charts/radial';
+import CpuDetail from './cpu-detail/index';
+import Cores from './cores';
 
 const Cpuname = styled.div(() => {
   const { cpu } = useContext(SysDataContext);
@@ -60,6 +60,7 @@ export default observer(() => {
     enableRadialGrid: false,
     radialAxisStart: null,
     circularAxisOuter: null,
+    animate: false,
     colors: [themeVars[`cpu-usage-rs-color-${Math.ceil(cpu.usage / 10)}`]],
     theme: {
       grid: {
@@ -92,7 +93,6 @@ export default observer(() => {
           <Radial
             options={cpuUsageChart}
             className="w-full absolute top-[50%] translate-y-[-50%]"
-            // className="m-auto"
             className2="scale-90"
           >
             <RadialCenter>
@@ -107,7 +107,7 @@ export default observer(() => {
       <Card className={`basis-150 flex-1 flex-shrink-0 flex flex-col ${themeVars.cardBg}`}>
         <CpuDetail />
       </Card>
-      <Card className="w-full">
+      <Card className="w-full bg-stone-500 resize overflow-hidden">
         <Cores />
       </Card>
     </div>

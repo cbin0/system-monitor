@@ -3,15 +3,15 @@ import React, {
 } from 'react';
 import { fetch } from '@tauri-apps/api/http';
 import { action } from 'mobx';
+import createSysData from 'store/sysdata';
 import { theme } from './theme';
-import createSysData from '../store/sysdata';
 
 const sysData = createSysData(theme);
 
 export const SysDataContext = createContext(sysData);
 
 // TODO: read configuration
-const initTimeout = 1400;
+const initTimeout = 1000;
 const timeout = 5;
 const iloop = {
   timeout,
