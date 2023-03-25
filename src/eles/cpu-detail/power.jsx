@@ -1,39 +1,35 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { SysDataContext } from 'contexts/sysdata';
+import React, {} from 'react';
+import { observer } from 'mobx-react-lite';
 import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
 
-export default function P({ commonOpt }) {
-  const { cpu } = useContext(SysDataContext);
-  const [power, setPower] = useState({});
-  useEffect(() => {
-    const range = Math.floor(cpu.power.package.max / 4);
-    setPower({
-      ...commonOpt,
-      data: [{
-        id: 'power',
-        ranges: [
-          0,
-          0.000001,
-          range,
-          range * 2,
-          range * 3,
-          Math.ceil(cpu.power.package.max / 5) * 5
-        ],
-        measures: [
-          cpu.power.package.value,
-          cpu.power.cores.value,
-          cpu.power.memory.value
-        ],
-        markers: [
-          cpu.power.package.max
-        ],
-        markersTitles: [
-          (v) => { return `${v}`; }
-        ]
-      }]
-    });
-  }, [cpu.power.total]);
+export default observer(({ cpu, commonOpt }) => {
+  const range = Math.floor(cpu.power.package.max / 4);
+  const power = {
+    ...commonOpt,
+    data: [{
+      id: 'power',
+      ranges: [
+        0,
+        0.000001,
+        range,
+        range * 2,
+        range * 3,
+        Math.ceil(cpu.power.package.max / 5) * 5
+      ],
+      measures: [
+        cpu.power.package.value,
+        cpu.power.cores.value,
+        cpu.power.memory.value
+      ],
+      markers: [
+        cpu.power.package.max
+      ],
+      markersTitles: [
+        (v) => { return `${v}`; }
+      ]
+    }]
+  };
 
   return (
     <SingleDetail type="temp">
@@ -65,4 +61,4 @@ export default function P({ commonOpt }) {
       </SingleDetail.Right>
     </SingleDetail>
   );
-}
+});

@@ -7,5 +7,5 @@ export default {
   `,
   chartBgFill: '#4a4a4a',
   cardBg: 'bg-zinc-200/60',
-  cpuNameBg: 'bg-stone-100'
+  cardTitleBg: 'bg-stone-100'
 };

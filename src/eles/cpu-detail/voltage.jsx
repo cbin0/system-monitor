@@ -1,39 +1,35 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { SysDataContext } from 'contexts/sysdata';
+import React, {} from 'react';
+import { observer } from 'mobx-react-lite';
 import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
 
-export default function VT({ commonOpt }) {
-  const { cpu } = useContext(SysDataContext);
-  const [voltage, setVoltage] = useState({});
-  useEffect(() => {
-    const range = Math.ceil(cpu.voltage.value) / 4;
-    setVoltage({
-      ...commonOpt,
-      data: [{
-        id: 'voltage',
-        ranges: [
-          0,
-          0.000001,
-          range,
-          range * 2,
-          range * 3,
-          range * 4
-        ],
-        measures: [
-          cpu.voltage.value
-        ],
-        markers: [
-          cpu.voltage.max
-        ],
-        markersTitles: [
-          (v) => {
-            return `${v.toFixed(1)}`;
-          }
-        ]
-      }]
-    });
-  }, [cpu.voltage.value]);
+export default observer(({ cpu, commonOpt }) => {
+  const range = Math.ceil(cpu.voltage.value) / 4;
+  const voltage = {
+    ...commonOpt,
+    data: [{
+      id: 'voltage',
+      ranges: [
+        0,
+        0.000001,
+        range,
+        range * 2,
+        range * 3,
+        range * 4
+      ],
+      measures: [
+        cpu.voltage.value
+      ],
+      markers: [
+        cpu.voltage.max
+      ],
+      markersTitles: [
+        (v) => {
+          return `${v.toFixed(1)}`;
+        }
+      ]
+    }]
+  };
 
   return (
     <SingleDetail type="temp">
@@ -58,4 +54,4 @@ export default function VT({ commonOpt }) {
       </SingleDetail.Right>
     </SingleDetail>
   );
-}
+});

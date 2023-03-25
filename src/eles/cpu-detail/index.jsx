@@ -1,12 +1,16 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 // import styled, { } from 'styled-components';
+import { SysDataContext } from 'contexts/sysdata';
 import Power from './power';
 import Temperature from './temperature';
 import Voltage from './voltage';
 
-const items = [Temperature, Power, Voltage];
+const items = {
+  t: Temperature, p: Power, v: Voltage
+};
 
-export default function Cpu() {
+export default function I() {
+  const { cpu } = useContext(SysDataContext);
   const commonOpt = {
     measureSize: 1,
     rangeBorderWidth: 0,
@@ -38,7 +42,10 @@ export default function Cpu() {
   return (
     <div className="h-full flex flex-col justify-around p-[1em_2em]">
       {
-        items.map((X) => { return <X key={X.name} commonOpt={commonOpt} />; })
+        Object.keys(items).map((k) => {
+          const X = items[k];
+          return <X key={k} cpu={cpu} commonOpt={commonOpt} />;
+        })
       }
     </div>
   );

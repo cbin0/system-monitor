@@ -7,8 +7,14 @@ export default () => {
       name: '',
       brand: '',
       // speed: 0,
-      usage: 0,
-      temperature: 0,
+      usage: {
+        value: 0,
+        max: 0
+      },
+      temperature: {
+        value: 0,
+        max: 0
+      },
       voltage: {
         value: 0,
         max: 0
@@ -35,6 +41,41 @@ export default () => {
       },
       cores: []
     },
-    ram: ''
+    ram: '',
+    gpu: {
+      name: '',
+      brand: '',
+      speed: {
+        value: 0,
+        max: 0
+      },
+      usage: {
+        value: 0,
+        max: 0
+      },
+      temperature: {
+        value: 0,
+        max: 0
+      },
+      voltage: {
+        value: 0,
+        max: 0
+      },
+      ram: {
+        free: 0,
+        usage: {
+          value: 0,
+          max: 0
+        },
+        total: 0
+      },
+      power: {
+        package: {
+          min: 0,
+          value: 0,
+          max: 0
+        }
+      }
+    }
   });
 };

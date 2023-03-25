@@ -1,45 +1,41 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { SysDataContext } from 'contexts/sysdata';
+import React, {} from 'react';
+import { observer } from 'mobx-react-lite';
 import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart } from './partials';
 
-export default function TE({ commonOpt }) {
-  const { cpu } = useContext(SysDataContext);
-  const [temp, setTemp] = useState({});
-  useEffect(() => {
-    setTemp({
-      ...commonOpt,
-      data: [{
-        id: 'temp.',
-        ranges: [
-          0,
-          0.000001,
-          30,
-          60,
-          70,
-          80,
-          90,
-          95,
-          100,
-          105,
-          110
-        ],
-        measures: [
-          cpu.temperature
-        ],
-        markers: [
-          70,
-          90
-        ]
-      }]
-    });
-  }, [cpu.temperature]);
+export default observer(({ cpu, commonOpt }) => {
+  const temp = {
+    ...commonOpt,
+    data: [{
+      id: 'temp.',
+      ranges: [
+        0,
+        0.000001,
+        30,
+        60,
+        70,
+        80,
+        90,
+        95,
+        100,
+        105,
+        110
+      ],
+      measures: [
+        cpu.temperature.value
+      ],
+      markers: [
+        70,
+        90
+      ]
+    }]
+  };
 
   return (
     <SingleDetail type="temp">
       <SingleDetail.Left>
         <span className="text-4xl">
-          {cpu.temperature}
+          {cpu.temperature.value}
           <i className="i-tabler-temperature-celsius" />
         </span>
       </SingleDetail.Left>
@@ -52,4 +48,4 @@ export default function TE({ commonOpt }) {
       </SingleDetail.Right>
     </SingleDetail>
   );
-}
+});
