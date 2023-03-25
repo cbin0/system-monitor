@@ -96,7 +96,7 @@ export default function P({ className, options }) {
   return (
     <div className={`${className || ''} h-full relative p2`}>
       <BulletContainer>
-        <div className="relative z-10 h-full border-5 relative">
+        <div className="relative z-10 h-full border-5">
           <ResponsiveBullet {...opt} />
           <div className="absolute inset-0">
             { opt.data[0] && opt.data[0].markers && opt.data[0].markers.map(

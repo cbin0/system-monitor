@@ -3,7 +3,7 @@ import { themeVarPrefix } from 'store/theme';
 
 export const SingleDetail = styled.div.attrs({
   className: `
-    m-8 text-xl
+    text-xl
     flex flex-row items-stretch
   `
 })(() => {

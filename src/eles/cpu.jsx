@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import { observer } from 'mobx-react-lite';
 import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
-import Radial, { RadialCenter } from './charts/radial';
+import Radial, { RadialCenter } from 'charts/radial';
 import CpuDetail from './cpu-detail/index';
 import Cores from './cores';
 
@@ -74,7 +74,7 @@ export default observer(() => {
   return (
     <div className="p-4 flex flex-wrap gap-4">
       {/* TODO: read configure for width & height */}
-      <Card className="w-90 h-110 shrink-0 resize overflow-hidden">
+      <Card className="w-90 h-110 shrink-0">
         <Cpuname className={`${themeVars.cpuNameBg} h-[90px] w-full`}>
           <i className="i-ph-cpu text-2xl align-text-bottom" />
           <span className="text-lg pl-2">{cpu.name}</span>
@@ -104,10 +104,10 @@ export default observer(() => {
           </Radial>
         </div>
       </Card>
-      <Card className={`basis-150 flex-1 flex-shrink-0 flex flex-col ${themeVars.cardBg}`}>
+      <Card className={`basis-150 flex-1 ${themeVars.cardBg}`}>
         <CpuDetail />
       </Card>
-      <Card className="w-full bg-stone-500 resize overflow-hidden">
+      <Card className={`w-full flex-shrink-0 ${themeVars.cardBg}`}>
         <Cores />
       </Card>
     </div>

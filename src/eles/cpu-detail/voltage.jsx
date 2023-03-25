@@ -1,9 +1,9 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { SysDataContext } from 'contexts/sysdata';
+import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
-import Bullet from '../charts/bullet';
 
-export default function A({ commonOpt }) {
+export default function VT({ commonOpt }) {
   const { cpu } = useContext(SysDataContext);
   const [voltage, setVoltage] = useState({});
   useEffect(() => {

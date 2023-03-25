@@ -1,5 +1,5 @@
 import React, {
-  createContext, useEffect
+  createContext, useEffect, useRef
 } from 'react';
 import { fetch } from '@tauri-apps/api/http';
 import { action } from 'mobx';
@@ -34,17 +34,17 @@ const iloop = {
   },
   _looper() {
     try {
-      this._exec(this);
+      this._exec.forEach((x) => { return x(this); });
       this.reset();
       console.log('fetching...', this);
     } catch (e) {
       this.error = e;
       console.error('fetching sysdata error ->', e);
     }
-    this._interval = setTimeout(this._looper.bind(this), this.tio) + 1;
+    this._interval = setTimeout(this._looper.bind(this), this.tio);
   },
-  start(exec) {
-    if (this._started) return;
+  start(...exec) {
+    if (this._started) this.stop();
     this._started = true;
     this._exec = exec;
     this._looper();
@@ -52,6 +52,7 @@ const iloop = {
   stop() {
     this._started = false;
     clearTimeout(this._interval);
+    this.reset();
   },
   reset() {
     this._interval = null;

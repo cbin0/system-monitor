@@ -48,24 +48,26 @@ export default {
     }
   }],
   shortcuts: [{
-    card: 'rounded-md shadow-3xl backdrop-blur'
+    card: 'rounded-md shadow-3xl backdrop-blur resize overflow-hidden max-w-full',
+    'cxy-center': 'flex flex-wrap items-center justify-center',
+    square: 'aspect-square max-h-full'
   }],
   rules: [
-    // content center
-    [/^cxy-center$/, () => {
-      return {
-        display: 'flex',
-        'flex-wrap': 'wrap',
-        'align-items': 'center',
-        'justify-content': 'center'
-      };
-    }, { layer: 'utilities' }],
-    // a square in his first parent
-    [/^square$/, ([c]) => {
-      return {
-        'aspect-ratio': '1 / 1',
-        'max-height': '100%'
-      };
-    }, { layer: 'utilities' }]
+    // // content center
+    // [/^cxy-center$/, () => {
+    //   return {
+    //     display: 'flex',
+    //     'flex-wrap': 'wrap',
+    //     'align-items': 'center',
+    //     'justify-content': 'center'
+    //   };
+    // }, { layer: 'utilities' }],
+    // // a square in his first parent
+    // [/^square$/, ([c]) => {
+    //   return {
+    //     'aspect-ratio': '1 / 1',
+    //     'max-height': '100%'
+    //   };
+    // }, { layer: 'utilities' }]
   ]
 };

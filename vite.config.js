@@ -13,7 +13,8 @@ export default defineConfig({
   resolve: {
     alias: {
       contexts: path.resolve(__dirname, 'src/contexts'),
-      store: path.resolve(__dirname, 'src/store')
+      store: path.resolve(__dirname, 'src/store'),
+      charts: path.resolve(__dirname, 'src/eles/charts')
     }
   },
 

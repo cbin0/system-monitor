@@ -1,10 +1,10 @@
 import React, { useContext, useState, useEffect } from 'react';
 // import styled, { } from 'styled-components';
-// import { themeVarPrefix } from '../../store/theme';
-// import { SysDataContext } from '../../contexts/sysdata.jsx';
 import Power from './power';
 import Temperature from './temperature';
 import Voltage from './voltage';
+
+const items = [Temperature, Power, Voltage];
 
 export default function Cpu() {
   const commonOpt = {
@@ -36,10 +36,10 @@ export default function Cpu() {
   };
 
   return (
-    <div>
-      <Temperature commonOpt={commonOpt} />
-      <Power commonOpt={commonOpt} />
-      <Voltage commonOpt={commonOpt} />
+    <div className="h-full flex flex-col justify-around p-[1em_2em]">
+      {
+        items.map((X) => { return <X key={X.name} commonOpt={commonOpt} />; })
+      }
     </div>
   );
 }

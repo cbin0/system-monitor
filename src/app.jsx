@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import { ThemeContext } from 'contexts/theme';
 import { SysDataProvider } from 'contexts/sysdata';
-import Eles from './eles/index';
+import Eles from './eles';
 
 export default observer(() => {
   const theme = useContext(ThemeContext);

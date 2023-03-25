@@ -18,8 +18,10 @@ module.exports = {
       alias: {
         map: [
           ['contexts', './src/contexts'],
-          ['store', './src/store']
-        ]
+          ['store', './src/store'],
+          ['charts', './src/eles/charts']
+        ],
+        extensions: ['.js', '.jsx', '.json']
       }
     }
   },
