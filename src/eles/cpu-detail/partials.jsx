@@ -50,5 +50,5 @@ export const MoreDetail = styled.span.attrs({
 })(() => {});
 
 export const BulletChart = styled.div.attrs({
-  className: 'h-11 mt-3'
+  className: 'h-10 mt-3'
 })(() => {});

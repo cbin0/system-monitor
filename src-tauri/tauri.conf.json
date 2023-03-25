@@ -13,6 +13,7 @@
   "tauri": {
     "systemTray": {
       "iconPath": "icons/Square30x30Logo.png",
+      "iconAsTemplate": true,
       "title": "System Monitor"
     },
     "allowlist": {
@@ -27,6 +28,17 @@
         "scope": [
           "http://localhost:8085/*"
         ]
+      },
+      "window": {
+        "all": true,
+        "close": true,
+        "hide": true,
+        "show": true,
+        "maximize": true,
+        "minimize": true,
+        "unmaximize": true,
+        "unminimize": true,
+        "startDragging": true
       }
     },
     "bundle": {
@@ -52,10 +64,11 @@
         "fullscreen": false,
         "resizable": true,
         "title": "System Monitor",
-        "width": 1200,
+        "width": 1400,
         "height": 900,
         "center": true,
-        "transparent": true
+        "transparent": true,
+        "decorations": false
       }
     ]
   }

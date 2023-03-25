@@ -34,8 +34,6 @@ const BulletContainer = styled.div.attrs({
 })(() => {
   const { themeVars } = useContext(ThemeContext);
   return `
-    height: 100%;
-
     > div {
       border-color: ${themeVars.chartBgFill}
     }
@@ -57,7 +55,7 @@ const BulletContainer = styled.div.attrs({
       content: '';
       border-radius: inherit;
       position: absolute;
-      inset: -4px;
+      inset: -2px;
       z-index: 9;
       background: linear-gradient(
         // from var(--border-angle),
@@ -94,7 +92,7 @@ export default function P({ className, options }) {
     ...options
   };
   return (
-    <div className={`${className || ''} h-full relative p2`}>
+    <div className={`${className || ''} h-full relative p1`}>
       <BulletContainer>
         <div className="relative z-10 h-full border-5">
           <ResponsiveBullet {...opt} />

@@ -16,10 +16,6 @@ export default observer(() => {
 
   return (
     <div data-theme={theme.themeName} className={theme.themeVars.main}>
-      <select value={theme.themeName} onChange={(v) => { theme.themeName = v.target.value; }}>
-        <option value="dark">dark</option>
-        <option value="light">light</option>
-      </select>
       <SysDataProvider>
         <Eles />
       </SysDataProvider>

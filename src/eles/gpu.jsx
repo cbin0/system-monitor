@@ -47,7 +47,7 @@ export default observer(({ className }) => {
       <Card className={`${className || ''} shrink-0 flex flex-col`}>
         <Card.Title brand={gpu.brand} className="w-full">
           <i className="i-bi-gpu-card text-2xl align-text-bottom" />
-          <span className="text-lg pl-2">{gpu.name}</span>
+          <span className="text-lg pl-2">{gpu.name || '...'}</span>
         </Card.Title>
         <Card.Body>
           <Radial

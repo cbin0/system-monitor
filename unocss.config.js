@@ -48,6 +48,10 @@ export default {
     }
   }],
   shortcuts: [{
+    'menu-items': `
+      divide-gray-100 rounded-md bg-white shadow-lg
+      ring-1 ring-black ring-opacity-5 focus:outline-none
+    `,
     card: 'rounded-md shadow-3xl backdrop-blur resize overflow-hidden max-w-full',
     'cxy-center': 'flex flex-wrap items-center justify-center',
     square: 'aspect-square max-h-full'
