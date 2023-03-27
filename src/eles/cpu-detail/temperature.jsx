@@ -52,7 +52,7 @@ export default observer(({ cpu, commonOpt }) => {
         </span>
       </SingleDetail.Left>
       <SingleDetail.Right>
-        <i className="i-carbon-temperature-celsius text-3xl text-fuchsia-400" />
+        <i className="i-carbon-temperature-celsius text-3xl temperature" />
         Temp.
         <BulletChart>
           <Bullet options={temp} />

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { lighten, opacify } from 'polished';
+import { lighten, opacify } from 'color2k';
 import styled from 'styled-components';
 import { ThemeContext } from 'contexts/theme';
 
@@ -8,8 +8,8 @@ const Title = styled.div.attrs(() => {
   const { themeVars } = useContext(ThemeContext);
   if (!brand) return null;
   const c = themeVars[`${brand}-main-color`];
-  const c1 = lighten(0.2, c);
-  const c2 = lighten(0.4, c);
+  const c1 = lighten(c, 0.2);
+  const c2 = lighten(c, 0.4);
   console.log(brand);
   return `
     border-top-left-radius: inherit;

@@ -57,7 +57,7 @@ export default observer(({ cpu, commonOpt }) => {
         <span className="">V</span>
       </SingleDetail.Left>
       <SingleDetail.Right>
-        <i className="i-bi-lightning-fill text-3xl text-amber-500" />
+        <i className="i-bi-lightning-fill text-3xl voltage" />
         Voltage
         <span className="text-base font-semibold">
           <MoreDetail className=" decoration-amber-300">

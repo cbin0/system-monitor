@@ -54,7 +54,7 @@ export default observer(({ cpu, commonOpt }) => {
       <SingleDetail.Right>
         <i className="
             i-ic-round-power
-            text-3xl text-cyan-500"
+            text-3xl power"
         />
         Power
         <MoreDetail className=" decoration-blue-400">

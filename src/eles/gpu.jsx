@@ -4,6 +4,7 @@ import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
 import Radial, { RadialCenter } from 'charts/radial';
 import { Card } from './comps';
+import GpuDtail from './gpudetail';
 
 export default observer(({ className }) => {
   const { gpu } = useContext(SysDataContext);
@@ -64,6 +65,7 @@ export default observer(({ className }) => {
               </RadialCenter>
             </Radial>
           </div>
+          <GpuDtail />
         </Card.Body>
       </Card>
     </>

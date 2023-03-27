@@ -7,14 +7,14 @@ import { ThemeContext } from 'contexts/theme';
 //   100% { --bg-position: 100%; }
 // `;
 
-function Bullet({ data: { value, max, colors } }) {
+function Bullet({ rounded, data: { value, max, colors } }) {
   const percentage = (value / max) * 100;
   let bg;
   if (colors && colors.length) bg = colors[Math.ceil(percentage / (100 / colors.length)) - 1];
   else bg = `var(--percentage-color-${Math.ceil(percentage / 10)})`;
   return (
     <div
-      className="h-full rounded-[999px]"
+      className={`h-full rounded-[${rounded || '999px'}]`}
       style={{
         width: `${percentage}%`,
         backgroundColor: `${bg}`
@@ -74,8 +74,10 @@ Mark.Cursor = styled.div.attrs(() => {
   `;
 });
 
-const BulletContainer = styled.div.attrs({
-  className: 'h-full relative bg-transparent rounded-[999px]'
+const BulletContainer = styled.div.attrs(({ rounded }) => {
+  return {
+    className: `h-full relative bg-transparent rounded-[${rounded || '999px'}]`
+  };
 })(() => {
   const { themeVars } = useContext(ThemeContext);
   return `
@@ -119,13 +121,13 @@ const BulletContainer = styled.div.attrs({
   `;
 });
 
-export default function P({ className, options: { data } }) {
+export default function P({ className, options: { data, rounded } }) {
   const { max, markers, markersTitles } = data;
   return (
     <div className={`${className || ''} h-full relative p1`}>
-      <BulletContainer>
+      <BulletContainer rounded={rounded}>
         <div className="relative h-full border-5">
-          <Bullet data={data} />
+          <Bullet rounded={rounded} data={data} />
           <div className="absolute inset-0">
             { markers && markers.map(
               (m, i) => {

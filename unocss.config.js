@@ -61,6 +61,24 @@ export default {
   }]
   ],
   rules: [
+    [/^(temperature|power|voltage)$/, ([, c]) => {
+      return {
+        color: `var(--${c}-color);`,
+        'border-color': `var(--${c}-color);`
+      };
+    }]
+    // [/^power$/, ([], () => {
+    //   return {
+    //     color: 'var(--power-color);',
+    //     'border-color': 'var(--power-color);'
+    //   };
+    // })],
+    // [/^voltage$/, ([], () => {
+    //   return {
+    //     color: 'var(--voltage-color);',
+    //     'border-color': 'var(--voltage-color);'
+    //   };
+    // })]
     // // content center
     // [/^cxy-center$/, () => {
     //   return {
