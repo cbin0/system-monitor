@@ -49,13 +49,25 @@ export default {
   }],
   shortcuts: [{
     'menu-items': `
-      divide-gray-100 rounded-md bg-white shadow-lg
-      ring-1 ring-black ring-opacity-5 focus:outline-none
-    `,
+        divide-gray-100 rounded-md bg-white shadow-lg
+        ring-1 ring-black ring-opacity-5 focus:outline-none
+      `,
     card: 'rounded-md shadow-3xl backdrop-blur resize overflow-hidden max-w-full',
     'cxy-center': 'flex flex-wrap items-center justify-center',
     square: 'aspect-square max-h-full'
-  }],
+  },
+  [/^button(-(.*))?$/, ([, c, x]) => {
+    let btn = `
+      rounded-lg px-3 py-2 shadow-md inline-block
+      bg-sky-6 text-stone-2 hover:bg-sky-5 active:bg-sky-8 focus:outline-none
+    `;
+    switch (x) {
+      case 'danger': btn += 'bg-red-6 hover:bg-red-5 active:bg-red-8'; break;
+      default: break;
+    }
+    return btn;
+  }]
+  ],
   rules: [
     // // content center
     // [/^cxy-center$/, () => {

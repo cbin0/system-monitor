@@ -29,6 +29,12 @@
           "http://localhost:8085/*"
         ]
       },
+      "process": {
+        "all": false,
+        "exit": true,
+        "relaunch": true,
+        "relaunchDangerousAllowSymlinkMacos": false
+      },
       "window": {
         "all": true,
         "close": true,
@@ -59,17 +65,6 @@
     "updater": {
       "active": false
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "resizable": true,
-        "title": "System Monitor",
-        "width": 1400,
-        "height": 900,
-        "center": true,
-        "transparent": true,
-        "decorations": false
-      }
-    ]
+    "windows": []
   }
 }

@@ -1,5 +1,5 @@
 export default {
-  main: 'min-h-screen rounded-lg backdrop-blur-lg',
+  main: 'h-[100vh] overflow-hidden rounded-lg backdrop-blur-lg',
   chartBgFill: '#333',
   'cpu-usage-rs-color-1': '#51ff4e',
   'cpu-usage-rs-color-2': '#96ff22',

@@ -5,8 +5,8 @@ import { ThemeContext } from 'contexts/theme';
 
 const Title = styled.div.attrs(() => {
 })(({ brand }) => {
-  if (!brand) return null;
   const { themeVars } = useContext(ThemeContext);
+  if (!brand) return null;
   const c = themeVars[`${brand}-main-color`];
   const c1 = lighten(0.2, c);
   const c2 = lighten(0.4, c);

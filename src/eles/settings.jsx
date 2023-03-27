@@ -1,5 +1,7 @@
+import { appWindow, PhysicalSize } from '@tauri-apps/api/window';
+import { exit, relaunch } from '@tauri-apps/api/process';
 import React, {
-  Fragment, useEffect, useContext, useState
+  Fragment, useRef, useContext, useEffect, useState
 } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Popover, RadioGroup, Transition } from '@headlessui/react';
@@ -19,6 +21,48 @@ const themes = [
   ['dark', 'dark', 'bg-stone-8 text-stone-1']
 ];
 
+function SizeForm({ className }) {
+  const iw = useRef(null);
+  const ih = useRef(null);
+  const setSize = ({ width, height }) => {
+    iw.current.value = width;
+    ih.current.value = height;
+  };
+  const getSize = () => {
+    return appWindow.innerSize().then(setSize);
+  };
+  const setWindowSize = (e, ...p) => {
+    e.preventDefault();
+    appWindow.setSize(new PhysicalSize(
+      Math.min(+iw.current.value, 10000),
+      Math.min(+ih.current.value, 5000)
+    )).then(getSize);
+  };
+  useEffect(() => {
+    let unListen = () => {};
+    getSize();
+    appWindow.onResized(setSize).then((x) => { unListen = x; });
+    return () => { unListen(); };
+  }, []);
+  return (
+    <div className={`p4 ${className || ''}`}>
+      <form className="flex items-end gap4" onSubmit={setWindowSize}>
+        <div>
+          Width:
+          <input ref={iw} type="number" className="px-2 py-1 b-1 w30" />
+        </div>
+        <div className="">
+          Height:
+          <input ref={ih} type="number" className="px-2 py-1 b-1 w30" />
+        </div>
+        <div className="">
+          <button type="submit" className="button whitespace-nowrap">Confirm</button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
 export default observer(() => {
   const theme = useContext(ThemeContext);
   return (
@@ -34,7 +78,7 @@ export default observer(() => {
       </Popover.Button>
       <Transition as={Fragment} {...transition}>
         <Popover.Panel className="rounded-lg shadow-lg bg-white absolute left-1 z-10 mt-3 text-stone-800 max-w-sm px-4 sm:px-0 lg:max-w-3xl">
-          <div className="flex overflow-hidden space-y-2 ring-1 ring-black ring-opacity-5">
+          <div className="flex overflow-hidden">
             <RadioGroup
               value={theme.themeName}
               onChange={(v) => {
@@ -73,14 +117,23 @@ export default observer(() => {
               </div>
             </RadioGroup>
           </div>
-          <div className="p4">
+          <SizeForm className="p4 b-t-1" />
+          <div className="p4 b-t-1 flex flex-row-reverse gap4">
             <a
               href="##"
-              className="block px4 py2 b-r-1 rounded-lg divide-y hover:bg-sky-5 hover:text-stone-1"
-              onClick={() => { document.location.reload(); }}
+              className="button-danger"
+              onClick={() => { exit(1); }}
+            >
+              <i className="i-ic-baseline-cancel text-xl align-text-bottom mr1" />
+              Quit
+            </a>
+            <a
+              href="##"
+              className="button"
+              onClick={() => { relaunch(); }}
             >
               <i className="i-ic-baseline-refresh text-xl align-text-bottom mr1" />
-              Refresh
+              ReLaunch
             </a>
           </div>
         </Popover.Panel>
