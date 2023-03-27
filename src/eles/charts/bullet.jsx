@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import { ResponsiveBullet } from '@nivo/bullet';
-import styled, { keyframes } from 'styled-components';
+import styled, { } from 'styled-components';
 import { ThemeContext } from 'contexts/theme';
 
 // const borderRotation = keyframes`
@@ -8,15 +7,48 @@ import { ThemeContext } from 'contexts/theme';
 //   100% { --bg-position: 100%; }
 // `;
 
-const Mark = styled.div.attrs(({ value }) => {
+function Bullet({ data: { value, max, colors } }) {
+  const percentage = (value / max) * 100;
+  let bg;
+  if (colors && colors.length) bg = colors[Math.ceil(percentage / (100 / colors.length)) - 1];
+  else bg = `var(--percentage-color-${Math.ceil(percentage / 10)})`;
+  return (
+    <div
+      className="h-full rounded-[999px]"
+      style={{
+        width: `${percentage}%`,
+        backgroundColor: `${bg}`
+      }}
+    />
+  );
+}
+
+function Mark({
+  title, value, max
+}) {
+  const percent = (value * 100) / max;
+  return (
+    <>
+      <Mark.Top
+        left={`calc(${percent}% - 50px)`}
+        title={title}
+      >
+        <i className="i-ri-arrow-down-s-line" />
+      </Mark.Top>
+      <Mark.Cursor left={`${percent}%`} />
+    </>
+  );
+}
+
+Mark.Top = styled.div.attrs(() => {
   return {
     className: 'absolute text-center'
   };
-})(({ title, value, max }) => {
+})(({ title, left }) => {
   return `
     width: 100px;
     top: -50px;
-    left: calc(${(value * 100) / max}% - 50px) ;
+    left: ${left};
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,13 +61,28 @@ const Mark = styled.div.attrs(({ value }) => {
   `;
 });
 
+Mark.Cursor = styled.div.attrs(() => {
+  return {
+    className: 'absolute bg-red-4/60'
+  };
+})(({ left }) => {
+  return `
+    width: 4px;
+    top: 20%;
+    bottom: 20%;
+    left: ${left};
+  `;
+});
+
 const BulletContainer = styled.div.attrs({
-  className: 'h-full relative bg-transparent'
+  className: 'h-full relative bg-transparent rounded-[999px]'
 })(() => {
   const { themeVars } = useContext(ThemeContext);
   return `
     > div {
-      border-color: ${themeVars.chartBgFill}
+      border-color: ${themeVars.chartBgFill};
+      background-color: ${themeVars.chartBgFill};
+      border-radius: inherit;
     }
 
     // @property --border-angle {
@@ -55,52 +102,34 @@ const BulletContainer = styled.div.attrs({
       content: '';
       border-radius: inherit;
       position: absolute;
-      inset: -2px;
-      z-index: 9;
+      inset: -3px;
+      z-index: -1;
       background: linear-gradient(
-        // from var(--border-angle),
-        90deg,
-        var(--bullet-bg-color-1),
-        var(--bullet-bg-color-2),
-        var(--bullet-bg-color-3),
-        var(--bullet-bg-color-4)
-        // var(--bullet-bg-color-2),
-        // var(--bullet-bg-color-1)
+        165deg,
+        var(--bullet-bg-color-1) 0%,
+        var(--bullet-bg-color-2) 30%,
+        var(--bullet-bg-color-2) 70%,
+        var(--bullet-bg-color-3) 100%
       );
     }
 
     :after {
-      filter: blur(.2em);
+      filter: blur(.1em);
     }
   `;
 });
 
-export default function P({ className, options }) {
-  const { themeVars } = useContext(ThemeContext);
-  const opt = {
-    data: [],
-    margin: {
-      top: 50, right: 90, bottom: 50, left: 90
-    },
-    spacing: 46,
-    titleAlign: 'start',
-    titleOffsetX: -70,
-    rangeBorderColor: { from: 'color', modifiers: [] },
-    measureSize: 0.2,
-    rangeColors: [themeVars.chartBgFill],
-    measureColors: 'seq:orange_red',
-    ...options
-  };
+export default function P({ className, options: { data } }) {
+  const { max, markers, markersTitles } = data;
   return (
     <div className={`${className || ''} h-full relative p1`}>
       <BulletContainer>
-        <div className="relative z-10 h-full border-5">
-          <ResponsiveBullet {...opt} />
+        <div className="relative h-full border-5">
+          <Bullet data={data} />
           <div className="absolute inset-0">
-            { opt.data[0] && opt.data[0].markers && opt.data[0].markers.map(
+            { markers && markers.map(
               (m, i) => {
-                const data = opt.data[0];
-                let title = data.markersTitles && data.markersTitles[i];
+                let title = markersTitles && markersTitles[i];
                 if (title && title.call) title = title.call(data, m);
                 else title = m;
                 return (
@@ -108,10 +137,8 @@ export default function P({ className, options }) {
                     value={m}
                     title={title}
                     key={m}
-                    max={data.ranges[data.ranges.length - 1]}
-                  >
-                    <i className="i-ri-arrow-down-s-line" />
-                  </Mark>
+                    max={max}
+                  />
                 );
               }
             )}

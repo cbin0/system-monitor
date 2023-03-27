@@ -31,7 +31,7 @@ export default observer(({ className }) => {
     radialAxisStart: null,
     circularAxisOuter: null,
     animate: false,
-    colors: [themeVars[`cpu-usage-rs-color-${Math.ceil(gpu.usage.value / 10)}`]],
+    colors: [themeVars[`percentage-color-${Math.ceil(gpu.usage.value / 10)}`]],
     theme: {
       grid: {
         line: {
@@ -50,18 +50,20 @@ export default observer(({ className }) => {
           <span className="text-lg pl-2">{gpu.name || '...'}</span>
         </Card.Title>
         <Card.Body>
-          <Radial
-            options={gpuUsageChart}
-            className="w-full absolute top-[50%] translate-y-[-50%]"
-            className2="scale-90"
-          >
-            <RadialCenter>
-              <span className="text-4xl text-slate-200">
-                {gpu.usage.value}
-                <span className="text-xl align-bottom ml-1">%</span>
-              </span>
-            </RadialCenter>
-          </Radial>
+          <div className="square relative">
+            <Radial
+              options={gpuUsageChart}
+              className="w-full absolute top-[50%] translate-y-[-50%]"
+              className2="scale-90"
+            >
+              <RadialCenter>
+                <span className="text-4xl text-slate-200">
+                  {gpu.usage.value}
+                  <span className="text-xl align-bottom ml-1">%</span>
+                </span>
+              </RadialCenter>
+            </Radial>
+          </div>
         </Card.Body>
       </Card>
     </>

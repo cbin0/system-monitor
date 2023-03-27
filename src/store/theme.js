@@ -1,7 +1,5 @@
 import { makeAutoObservable, action } from 'mobx';
 
-export const themeVarPrefix = 'theme';
-
 export default (themeEle) => {
   return makeAutoObservable({
     loaded: false,
@@ -23,14 +21,6 @@ export default (themeEle) => {
       return this._themeName;
     },
     _themeVars: {
-      'intel-main-color': '#007cc1',
-      'amd-main-color': '#ed1f23',
-      'nvidia-main-color': '#71b000',
-
-      'bullet-bg-color-1': '#a3ff6e',
-      'bullet-bg-color-2': '#ffad32',
-      'bullet-bg-color-3': '#ff5c5c',
-      'bullet-bg-color-4': '#f72d2d'
     },
     get themeVars() {
       return this._themeVars;
@@ -38,7 +28,7 @@ export default (themeEle) => {
     set themeVars(vars) {
       let themeStyle = `[data-theme="${this.themeName}"]{`;
       Object.keys(vars).forEach((k) => {
-        themeStyle += `--${themeVarPrefix}-${k}: ${vars[k]};`;
+        themeStyle += `--${k}: ${vars[k]};`;
       });
       themeEle.innerHTML = `${themeStyle};}`;
       this._themeVars = vars;

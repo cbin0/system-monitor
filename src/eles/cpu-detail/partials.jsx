@@ -1,5 +1,4 @@
 import styled, { } from 'styled-components';
-import { themeVarPrefix } from 'store/theme';
 
 export const SingleDetail = styled.div.attrs({
   className: `
@@ -19,7 +18,7 @@ SingleDetail.Left = styled.div.attrs((props) => {
     `
   };
 })(() => {
-  const c = `var(--${themeVarPrefix}-chartBgFill)`;
+  const c = 'var(--chartBgFill)';
   return `
     background: ${c};
     box-shadow: 0 0 20px -4px ${c};

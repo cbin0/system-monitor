@@ -4,7 +4,6 @@
 mod system_tray;
 mod window;
 use system_tray::{get_system_tray, handle_system_tray_event};
-use tauri::{CustomMenuItem, Menu, MenuItem, Submenu};
 use window::create_main_window;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -27,7 +26,7 @@ use window::create_main_window;
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
+        // .invoke_handler(tauri::generate_handler![greet])
         // .menu(get_menu())
         .setup(|app| {
             create_main_window(app);

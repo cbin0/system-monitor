@@ -35,14 +35,6 @@ export default {
     getCSS: () => {
       return `
       :root {
-        --intel-main-color: #007cc1;
-        --amd-main-color: #ed1f23;
-        --nvidia-main-color: #71b000;
-
-        --bullet-bg-color-1: #a3ff6e;
-        --bullet-bg-color-2: #ffad32;
-        --bullet-bg-color-3: #ff5c5c;
-        --bullet-bg-color-4: #f72d2d;
       }
     `;
     }
@@ -52,7 +44,7 @@ export default {
         divide-gray-100 rounded-md bg-white shadow-lg
         ring-1 ring-black ring-opacity-5 focus:outline-none
       `,
-    card: 'rounded-md shadow-3xl backdrop-blur resize overflow-hidden max-w-full',
+    card: 'rounded-md shadow-3xl backdrop-blur overflow-hidden max-w-full',
     'cxy-center': 'flex flex-wrap items-center justify-center',
     square: 'aspect-square max-h-full'
   },

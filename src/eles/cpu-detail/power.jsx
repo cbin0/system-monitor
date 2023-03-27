@@ -4,31 +4,45 @@ import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
 
 export default observer(({ cpu, commonOpt }) => {
-  const range = Math.floor(cpu.power.package.max / 4);
+  // const range = Math.floor(cpu.power.package.max / 4);
+  // const power = {
+  //   ...commonOpt,
+  //   data: [{
+  //     id: 'power',
+  //     ranges: [
+  //       0,
+  //       0.000001,
+  //       range,
+  //       range * 2,
+  //       range * 3,
+  //       Math.ceil(cpu.power.package.max / 5) * 5
+  //     ],
+  //     measures: [
+  //       cpu.power.package.value,
+  //       cpu.power.cores.value,
+  //       cpu.power.memory.value
+  //     ],
+  //     markers: [
+  //       cpu.power.package.max
+  //     ],
+  //     markersTitles: [
+  //       (v) => { return `${v}`; }
+  //     ]
+  //   }]
+  // };
+
   const power = {
     ...commonOpt,
-    data: [{
-      id: 'power',
-      ranges: [
-        0,
-        0.000001,
-        range,
-        range * 2,
-        range * 3,
-        Math.ceil(cpu.power.package.max / 5) * 5
-      ],
-      measures: [
-        cpu.power.package.value,
-        cpu.power.cores.value,
-        cpu.power.memory.value
-      ],
+    data: {
+      value: cpu.power.package.value,
+      max: Math.ceil(cpu.power.package.max / 10) * 10,
       markers: [
         cpu.power.package.max
       ],
       markersTitles: [
         (v) => { return `${v}`; }
       ]
-    }]
+    }
   };
 
   return (

@@ -1,25 +1,44 @@
-import React, {} from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import Bullet from 'charts/bullet';
+import { ThemeContext } from 'contexts/theme';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
 
 export default observer(({ cpu, commonOpt }) => {
-  const range = Math.ceil(cpu.voltage.value) / 4;
+  const { themeVars } = useContext(ThemeContext);
+  // const range = Math.ceil(cpu.voltage.value) / 4;
+  // const voltage = {
+  //   ...commonOpt,
+  //   data: [{
+  //     id: 'voltage',
+  //     ranges: [
+  //       0,
+  //       0.000001,
+  //       range,
+  //       range * 2,
+  //       range * 3,
+  //       range * 4
+  //     ],
+  //     measures: [
+  //       cpu.voltage.value
+  //     ],
+  //     markers: [
+  //       cpu.voltage.max
+  //     ],
+  //     markersTitles: [
+  //       (v) => {
+  //         return `${v.toFixed(1)}`;
+  //       }
+  //     ]
+  //   }]
+  // };
+
   const voltage = {
     ...commonOpt,
-    data: [{
-      id: 'voltage',
-      ranges: [
-        0,
-        0.000001,
-        range,
-        range * 2,
-        range * 3,
-        range * 4
-      ],
-      measures: [
-        cpu.voltage.value
-      ],
+    data: {
+      value: cpu.voltage.value,
+      max: Math.ceil(cpu.voltage.value),
+      colors: [themeVars['percentage-color-4'], themeVars['percentage-color-5']],
       markers: [
         cpu.voltage.max
       ],
@@ -28,7 +47,7 @@ export default observer(({ cpu, commonOpt }) => {
           return `${v.toFixed(1)}`;
         }
       ]
-    }]
+    }
   };
 
   return (

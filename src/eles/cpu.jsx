@@ -31,7 +31,7 @@ export default observer(({ className }) => {
     radialAxisStart: null,
     circularAxisOuter: null,
     animate: false,
-    colors: [themeVars[`cpu-usage-rs-color-${Math.ceil(cpu.usage.value / 10)}`]],
+    colors: [themeVars[`percentage-color-${Math.ceil(cpu.usage.value / 10)}`]],
     theme: {
       grid: {
         line: {
