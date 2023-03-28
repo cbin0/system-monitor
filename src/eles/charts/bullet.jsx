@@ -129,7 +129,7 @@ export default function P({ className, options: { data, rounded } }) {
         <div className="relative h-full border-5">
           <Bullet rounded={rounded} data={data} />
           <div className="absolute inset-0">
-            { markers && markers.map(
+            { max > 0 && markers && markers.map(
               (m, i) => {
                 let title = markersTitles && markersTitles[i];
                 if (title && title.call) title = title.call(data, m);

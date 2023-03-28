@@ -1,9 +1,11 @@
-import React, {} from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import { SysDataContext } from 'contexts/sysdata';
 import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart } from './partials';
 
-export default observer(({ cpu, commonOpt }) => {
+export default observer(({ commonOpt }) => {
+  const { cpu } = useContext(SysDataContext);
   // const temp = {
   //   ...commonOpt,
   //   data: [{

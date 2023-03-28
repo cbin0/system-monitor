@@ -1,16 +1,15 @@
 import React, { useContext } from 'react';
 // import styled, { } from 'styled-components';
-import { SysDataContext } from 'contexts/sysdata';
 import Power from './power';
 import Temperature from './temperature';
 import Voltage from './voltage';
+import Memory from './memory';
 
 const items = {
-  t: Temperature, p: Power, v: Voltage
+  t: Temperature, p: Power, v: Voltage, m: Memory
 };
 
 export default function I() {
-  const { cpu } = useContext(SysDataContext);
   const commonOpt = {
   };
 
@@ -19,7 +18,7 @@ export default function I() {
       {
         Object.keys(items).map((k) => {
           const X = items[k];
-          return <X key={k} cpu={cpu} commonOpt={commonOpt} />;
+          return <X key={k} commonOpt={commonOpt} />;
         })
       }
     </div>

@@ -1,6 +1,8 @@
-# System Monitor
+# Headless System Monitor
 
-A cross platform pretty system monitor
+A cross platform pretty system monitor focus on provide efficient and clear ui.
+Can also using data from self or variable sources.
+
 
 ![image](./public/screenshot.png)
 

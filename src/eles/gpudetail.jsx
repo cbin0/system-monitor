@@ -12,14 +12,14 @@ function Detail({ children, type, data }) {
     <div className="basis-8 flex items-center">
       {/* <div className={`h-[100%] ${type}`} /> */}
       <div
-        className="py-2 w-26 mr2 rounded-md text-stone-200 text-lg cxy-center"
+        className="py-1 w-26 mr2 rounded-md text-stone-200 text-lg cxy-center"
         style={{
           borderLeft: `5px solid ${darken(c, 0.2)}`,
           background: c
         }}
       >
         <span className="mr1">
-          {data.value}
+          {data.value.toFixed(1)}
         </span>
         {children}
       </div>
@@ -35,7 +35,7 @@ export default observer(() => {
   return (
     <div
       className="
-        p4 pt-[100px] m4 mt-[-90px] gap4 flex flex-col
+        p4 pt-[85px] m4 mt-[-90px] gap4 flex flex-col
         rounded-t-[10px] rounded-b-[5px]
       "
       style={{
@@ -61,13 +61,13 @@ export default observer(() => {
         W
       </Detail>
       <Detail
-        type="voltage"
+        type="memory"
         data={{
-          value: gpu.voltage.value,
-          max: gpu.voltage.max
+          value: gpu.ram.used.value,
+          max: gpu.ram.total.value
         }}
       >
-        V
+        GB
       </Detail>
     </div>
   );

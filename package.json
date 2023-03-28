@@ -35,6 +35,8 @@
     "@iconify-json/ic": "^1.1.13",
     "@iconify-json/icon-park": "^1.1.10",
     "@iconify-json/icon-park-outline": "^1.1.10",
+    "@iconify-json/material-symbols": "^1.1.36",
+    "@iconify-json/mdi": "^1.1.50",
     "@iconify-json/ph": "^1.1.5",
     "@iconify-json/radix-icons": "^1.1.10",
     "@iconify-json/ri": "^1.1.5",

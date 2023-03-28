@@ -1,9 +1,13 @@
-import React, {} from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import { SysDataContext } from 'contexts/sysdata';
 import Bullet from 'charts/bullet';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
 
-export default observer(({ cpu, commonOpt }) => {
+const { min, log10, ceil } = Math;
+
+export default observer(({ commonOpt }) => {
+  const { cpu } = useContext(SysDataContext);
   // const range = Math.floor(cpu.power.package.max / 4);
   // const power = {
   //   ...commonOpt,
@@ -35,7 +39,8 @@ export default observer(({ cpu, commonOpt }) => {
     ...commonOpt,
     data: {
       value: cpu.power.package.value,
-      max: Math.ceil(cpu.power.package.max / 10) * 10,
+      max: cpu.power.package.max
+        + (min(1, ceil(log10(cpu.power.package.max)) - 1)) * 10,
       markers: [
         cpu.power.package.max
       ],
@@ -57,12 +62,12 @@ export default observer(({ cpu, commonOpt }) => {
             text-3xl power"
         />
         Power
-        <MoreDetail className=" decoration-blue-400">
+        {/* <MoreDetail className=" decoration-blue-400">
           Memory:
           {' '}
           {cpu.power.memory.value}
           w
-        </MoreDetail>
+        </MoreDetail> */}
         <MoreDetail className=" decoration-indigo-400">
           Cores:
           {' '}

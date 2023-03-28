@@ -1,16 +1,16 @@
 import { makeAutoObservable, action } from 'mobx';
+import settings from './settings';
 
 export default (themeEle) => {
   return makeAutoObservable({
     loaded: false,
-    _themeName: '',
     set themeName(name) {
       const temp = { ...this.themeVars };
       import(`../themes/${name}.jsx`).then(action((styles) => {
         Object.keys(styles.default).forEach((k) => {
           temp[k] = styles.default[k];
         });
-        this._themeName = name;
+        settings.theme = name;
         this.themeVars = temp;
         this.loaded = true;
       })).catch(() => {
@@ -18,7 +18,7 @@ export default (themeEle) => {
       });
     },
     get themeName() {
-      return this._themeName;
+      return settings.theme;
     },
     _themeVars: {
     },

@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { observer } from 'mobx-react-lite';
 import { theme, ThemeProvider } from 'contexts/theme';
+import settings from 'store/settings';
 import App from './app';
 import '@unocss/reset/tailwind.css';
 // eslint-disable-next-line import/no-unresolved
@@ -9,8 +10,7 @@ import 'virtual:uno.css';
 
 const Loading = observer(({ children }) => {
   const allLoaded = theme.loaded;
-  // TODO: read configuration
-  theme.themeName = 'dark';
+  theme.themeName = settings.theme;
   return (
     <div>
       {allLoaded ? children

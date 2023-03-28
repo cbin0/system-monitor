@@ -41,7 +41,34 @@ export default () => {
       },
       cores: []
     },
-    ram: '',
+    ram: {
+      usage: {
+        value: 0,
+        max: 0
+      },
+      used: {
+        value: 0,
+        max: 0
+      },
+      available: {
+        value: 0,
+        max: 0
+      },
+      virtual: {
+        usage: {
+          value: 0,
+          max: 0
+        },
+        used: {
+          value: 0,
+          max: 0
+        },
+        available: {
+          value: 0,
+          max: 0
+        }
+      }
+    },
     gpu: {
       name: '',
       brand: '',
@@ -62,12 +89,22 @@ export default () => {
         max: 0
       },
       ram: {
-        free: 0,
-        usage: {
+        used: {
           value: 0,
           max: 0
         },
-        total: 0
+        available: {
+          value: 0,
+          max: 0
+        },
+        total: {
+          value: 0,
+          max: 0
+        },
+        usage: {
+          value: 0,
+          max: 0
+        }
       },
       power: {
         package: {

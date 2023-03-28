@@ -6,15 +6,8 @@ import React, {
 import { observer } from 'mobx-react-lite';
 import { Popover, RadioGroup, Transition } from '@headlessui/react';
 import { ThemeContext } from 'contexts/theme';
-
-const transition = {
-  enter: 'transition ease-out duration-100',
-  enterFrom: 'transform opacity-0 scale-95',
-  enterTo: 'transform opacity-100 scale-100',
-  leave: 'transition ease-in duration-75',
-  leaveFrom: 'transform opacity-100 scale-100',
-  leaveTo: 'transform opacity-0 scale-95'
-};
+import settings, { transition } from 'store/settings';
+import DataSource from './datasource';
 
 const themes = [
   ['light', 'light', 'bg-sky-5 text-stone-1'],
@@ -118,6 +111,7 @@ export default observer(() => {
             </RadioGroup>
           </div>
           <SizeForm className="p4 b-t-1" />
+          <DataSource className="p4 b-t-1 bg-stone-2" />
           <div className="p4 b-t-1 flex flex-row-reverse gap4">
             <a
               href="##"

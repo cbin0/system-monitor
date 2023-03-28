@@ -51,7 +51,7 @@ export default observer(({ className }) => {
           <span className="text-lg pl-2">{gpu.name || '...'}</span>
         </Card.Title>
         <Card.Body>
-          <div className="square relative">
+          <div className="mx-2 square relative">
             <Radial
               options={gpuUsageChart}
               className="w-full absolute top-[50%] translate-y-[-50%]"

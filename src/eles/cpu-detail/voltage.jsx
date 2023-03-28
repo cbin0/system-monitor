@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import Bullet from 'charts/bullet';
+import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
 import { SingleDetail, BulletChart, MoreDetail } from './partials';
 
-export default observer(({ cpu, commonOpt }) => {
+export default observer(({ commonOpt }) => {
+  const { cpu } = useContext(SysDataContext);
   const { themeVars } = useContext(ThemeContext);
   // const range = Math.ceil(cpu.voltage.value) / 4;
   // const voltage = {
@@ -37,7 +39,7 @@ export default observer(({ cpu, commonOpt }) => {
     ...commonOpt,
     data: {
       value: cpu.voltage.value,
-      max: Math.ceil(cpu.voltage.value),
+      max: Math.ceil(cpu.voltage.max),
       colors: [themeVars['percentage-color-4'], themeVars['percentage-color-5']],
       markers: [
         cpu.voltage.max
@@ -63,7 +65,7 @@ export default observer(({ cpu, commonOpt }) => {
           <MoreDetail className=" decoration-amber-300">
             Max:
             {' '}
-            {cpu.voltage.max}
+            {cpu.voltage.max.toFixed(1)}
             v
           </MoreDetail>
         </span>

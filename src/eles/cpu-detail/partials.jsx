@@ -13,7 +13,7 @@ export const SingleDetail = styled.div.attrs({
 SingleDetail.Left = styled.div.attrs((props) => {
   return {
     className: `
-      basis-6em flex-shrink-0 mr-6 rounded-lg
+      basis-6em flex-shrink-0 mt-4 mr-6 rounded-lg
       cxy-center text-stone-200
     `
   };
@@ -49,5 +49,5 @@ export const MoreDetail = styled.span.attrs({
 })(() => {});
 
 export const BulletChart = styled.div.attrs({
-  className: 'h-10 mt-3'
+  className: 'h-10 mt-2'
 })(() => {});

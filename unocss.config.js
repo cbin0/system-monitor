@@ -7,8 +7,10 @@ import ip from '@iconify-json/icon-park/icons.json';
 import tb from '@iconify-json/tabler/icons.json';
 import cb from '@iconify-json/carbon/icons.json';
 import ic from '@iconify-json/ic/icons.json';
+import mdi from '@iconify-json/mdi/icons.json';
 import rdi from '@iconify-json/radix-icons/icons.json';
 import ipo from '@iconify-json/icon-park-outline/icons.json';
+import mdis from '@iconify-json/material-symbols/icons.json';
 import svgspinner from '@iconify-json/svg-spinners';
 
 export default {
@@ -27,7 +29,18 @@ export default {
         'vertical-align': 'midde'
       },
       collections: {
-        bi, ip, ipo, ph, ri, rdi, tb, cb, ic, svgspinner
+        mdi,
+        mdis,
+        bi,
+        ip,
+        ipo,
+        ph,
+        ri,
+        rdi,
+        tb,
+        cb,
+        ic,
+        svgspinner
       }
     })
   ],
@@ -60,11 +73,22 @@ export default {
     return btn;
   }]
   ],
+  safelist: [
+    'message-success',
+    'message-error',
+    'message-warn'
+  ],
   rules: [
-    [/^(temperature|power|voltage)$/, ([, c]) => {
+    [/^(temperature|power|voltage|memory)$/, ([, c]) => {
       return {
-        color: `var(--${c}-color);`,
-        'border-color': `var(--${c}-color);`
+        color: `var(--${c}-color)`,
+        'border-color': `var(--${c}-color)`
+      };
+    }],
+    [/^message-(error|warn|success)$/, ([, c]) => {
+      return {
+        color: `var(--${c}-color)`,
+        'background-color': `var(--${c}-bg)`
       };
     }]
     // [/^power$/, ([], () => {

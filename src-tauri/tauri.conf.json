@@ -7,14 +7,14 @@
     "withGlobalTauri": false
   },
   "package": {
-    "productName": "tauri-app",
+    "productName": "Headless System Monitor",
     "version": "0.0.0"
   },
   "tauri": {
     "systemTray": {
       "iconPath": "icons/Square30x30Logo.png",
       "iconAsTemplate": true,
-      "title": "System Monitor"
+      "title": "Headless System Monitor"
     },
     "allowlist": {
       "all": false,

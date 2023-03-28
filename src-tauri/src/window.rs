@@ -8,6 +8,7 @@ pub fn create_main_window(app: &mut App<Wry>) {
             .transparent(true)
             .decorations(false)
             .resizable(true)
+            .title("System Monitor Main Window")
             .build()
             .unwrap();
     });

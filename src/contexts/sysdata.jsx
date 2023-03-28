@@ -3,20 +3,16 @@ import React, {
 } from 'react';
 import omit from 'lodash/omit';
 import { fetch } from '@tauri-apps/api/http';
-import { action } from 'mobx';
+import { toJS, action } from 'mobx';
 import createSysData from 'store/sysdata';
+import settings, { messages } from 'store/settings';
 import { theme } from './theme';
 
 const sysData = createSysData(theme);
 
 export const SysDataContext = createContext(sysData);
 
-// TODO: read configuration
-const initTimeout = 1000;
-const timeout = 5;
 const iloop = {
-  timeout,
-  initTimeout,
   _started: false,
   _exec: null,
   _interval: null,
@@ -24,7 +20,7 @@ const iloop = {
   _tioMax: 4000,
   _step: 200,
   // timeout
-  _tio: initTimeout,
+  _tio: settings.interval,
   _error: null,
   get tio() {
     return this._tio;
@@ -33,14 +29,19 @@ const iloop = {
     this._error = e;
     if (this.tio < this._tioMax) this._tio += this._step;
   },
-  _looper() {
+  async _looper() {
     try {
-      this._exec.forEach((x) => { return x(this); });
+      await Promise.all(this._exec.map((x) => { return x(this); }));
       this.reset();
       console.log('fetching...', this);
     } catch (e) {
       this.error = e;
-      console.error('fetching sysdata error ->', e);
+      messages.push({
+        id: 'fetching sysdata error',
+        type: 'error',
+        title: 'Fetching sysdata error',
+        message: `Fetching sysdata error: ${e}`
+      });
     }
     this._interval = setTimeout(this._looper.bind(this), this.tio);
   },
@@ -57,7 +58,7 @@ const iloop = {
   },
   reset() {
     this._interval = null;
-    this._tio = this.initTimeout;
+    this._tio = settings.interval;
   }
 };
 
@@ -77,11 +78,20 @@ const getCore = (name) => {
   return sysData.cpu.cores[coreId - 1];
 };
 
+const parseValue = (v) => {
+  let re = 0;
+  const m = `${v}`.match(/^([.\d]+)\s?(.*)$/);
+  if (!m) return re;
+  re = parseFloat(m[1]) || 0;
+  if (/MB/.test(m[2])) re /= 1024;
+  return re;
+};
+
 const getValues = (d) => {
   return {
-    min: parseFloat(d.Min) || 0,
-    value: parseFloat(d.Value) || 0,
-    max: parseFloat(d.Max) || 0
+    min: parseValue(d.Min),
+    value: parseValue(d.Value),
+    max: parseValue(d.Max)
   };
 };
 
@@ -126,8 +136,30 @@ const resolve = action((d, ...parents) => {
     if (d.Text === 'GPU Core') sysData.gpu.temperature = getValues(d);
   } else if (d.Type === 'Load') {
     const v = getValues(d);
-    if (d.Text === 'GPU Core') sysData.gpu.usage = v;
-    if (d.Text === 'GPU Memory') sysData.gpu.ram = v;
+    switch (d.Text) {
+      case 'GPU Core': sysData.gpu.usage = v; break;
+      case 'GPU Memory': sysData.gpu.ram.usage = v; break;
+      case 'Memory': sysData.ram.usage = v; break;
+      case 'Virtual Memory': sysData.ram.virtual.usage = v; break;
+      default: break;
+    }
+  } else if (d.Type === 'Data') {
+    const v = getValues(d);
+    switch (d.Text) {
+      case 'Memory Used': sysData.ram.used = v; break;
+      case 'Memory Available': sysData.ram.available = v; break;
+      case 'Virtual Memory Used': sysData.ram.virtual.used = v; break;
+      case 'Virtual Memory Available': sysData.ram.virtual.available = v; break;
+      default: break;
+    }
+  } else if (d.Type === 'SmallData') {
+    const v = getValues(d);
+    switch (d.Text) {
+      case 'GPU Memory Used': sysData.gpu.ram.used = v; break;
+      case 'GPU Memory Free': sysData.gpu.ram.available = v; break;
+      case 'GPU Memory Total': sysData.gpu.ram.total = v; break;
+      default: break;
+    }
   }
   d.Children.forEach((c) => {
     resolve(c, parent, ...parents);
@@ -135,10 +167,9 @@ const resolve = action((d, ...parents) => {
 });
 
 const getSysInfo = async (i) => {
-  // TODO: read configuration
-  const info = await fetch('http://localhost:8085/data.json', {
+  const info = await fetch(`http://localhost:${settings.ds.config.port.value}/data.json`, {
     method: 'GET',
-    timeout: i.timeout
+    timeout: settings.ds.config.httpTimeout.value
   });
   resolve.ctx = '';
   resolve(info.data);

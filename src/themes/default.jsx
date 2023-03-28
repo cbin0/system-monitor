@@ -1,12 +1,21 @@
+import { darken, lighten } from 'color2k';
+
 export default {
   main: 'h-[100vh] overflow-hidden rounded-lg backdrop-blur-lg',
   chartBgFill: '#333',
+  'error-bg': '#ff6666ef',
+  'error-color': darken('#ff6666', 0.4),
+  'warn-bg': '#f9f053f2',
+  'warn-color': darken('#f9f053', 0.4),
+  'success-bg': '#61fa6bf1',
+  'success-color': darken('#61fa6b', 0.4),
   'intel-main-color': '#007cc1',
   'amd-main-color': '#ed1f23',
   'nvidia-main-color': '#71b000',
   'temperature-color': '#e879f9',
   'power-color': '#06b6d4',
   'voltage-color': '#f59e0b',
+  'memory-color': '#ff4778',
   // 'bullet-bg-color-1': '#a3ff6e',
   // 'bullet-bg-color-2': '#ffad32',
   // 'bullet-bg-color-3': '#ff5c5c',
