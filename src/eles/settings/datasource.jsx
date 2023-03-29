@@ -1,19 +1,19 @@
 import React, { useRef } from 'react';
-import debounce from 'lodash/debounce';
-import { Transition, Listbox } from '@headlessui/react';
+import { Listbox } from '@headlessui/react';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import settings, { transition, datasources } from 'store/settings';
+import settings, { datasources } from 'store/settings';
+import { Transition } from 'eles/comps';
 
 export default observer(({ className }) => {
-  const deferedChangeConfig = useRef(debounce(action((id, value) => {
+  const deferedChangeConfig = useRef(action((id, value) => {
     let re = value;
     switch (settings.ds.config[id].type) {
       case 'number': re = parseInt(re, 10); break;
       default: break;
     }
     settings.ds.config[id].value = re;
-  }, 1000)));
+  }));
 
   const configChanged = (e) => {
     e.preventDefault();
@@ -21,7 +21,7 @@ export default observer(({ className }) => {
   };
 
   return (
-    <div className={className}>
+    <div className="p4 b-t-1 bg-stone-2">
       <Listbox value={settings.ds.name} onChange={() => {}}>
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
@@ -30,10 +30,10 @@ export default observer(({ className }) => {
               <i className="h5 w5 text-gray-400 i-ph-caret-up-down" />
             </span>
           </Listbox.Button>
-          <Transition as={React.Fragment} {...transition}>
+          <Transition>
             <Listbox.Options className="
-              absolute mt-1 max-h-60 w-full overflow-auto rounded-md
-            bg-white py-1 text-base shadow-lg
+              absolute mt1 max-h-60 w-full overflow-auto rounded-md
+            bg-white py1 text-base shadow-lg
               ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
             >
               {Object.keys(datasources).map((k) => {
@@ -42,8 +42,8 @@ export default observer(({ className }) => {
                   <Listbox.Option
                     key={k}
                     className={({ active }) => {
-                      return `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-amber-100 text-amber-900' : 'text-gray-900'
+                      return `relative cursor-default select-none py2 pl10 pr4 ${
+                        active ? 'active' : 'text-gray-900'
                       }`;
                     }}
                     value={ds.name}
@@ -80,7 +80,7 @@ export default observer(({ className }) => {
               name, value, unit, type
             } = settings.ds.config[id];
             return (
-              <div key={id} className="b-color-inherit p-l-4 b-b-1 p-b-4">
+              <div key={id} className="b-color-inherit pl4 b-b-1 pb4">
                 <span>
                   {name}
                   :

@@ -69,10 +69,9 @@ export default observer(({ commonOpt }) => {
           w
         </MoreDetail> */}
         <MoreDetail className=" decoration-indigo-400">
-          Cores:
-          {' '}
+          {'Cores. '}
           {cpu.power.cores.value}
-          w
+          {' w'}
         </MoreDetail>
         <BulletChart>
           <Bullet options={power} />

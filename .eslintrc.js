@@ -17,8 +17,11 @@ module.exports = {
     'import/resolver': {
       alias: {
         map: [
+          ['assets', './src/assets'],
+          ['eles', './src/eles'],
           ['contexts', './src/contexts'],
           ['store', './src/store'],
+          ['resolvers', './src/data-resolvers'],
           ['charts', './src/eles/charts']
         ],
         extensions: ['.js', '.jsx', '.json']

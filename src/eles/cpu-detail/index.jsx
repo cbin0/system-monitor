@@ -11,6 +11,7 @@ const items = {
 
 export default function I() {
   const commonOpt = {
+    rounded: 0
   };
 
   return (

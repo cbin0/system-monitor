@@ -35,16 +35,14 @@ export default observer(({ commonOpt }) => {
         Memory
         <span className="text-base font-semibold">
           <MoreDetail className=" decoration-rose-400">
-            Max:
-            {' '}
+            {'All. '}
             {(ram.used.value + ram.available.value).toFixed(1)}
-            GB
+            {' GB'}
           </MoreDetail>
           <MoreDetail className=" decoration-rose-400">
-            available:
-            {' '}
+            {'free. '}
             {ram.available.value.toFixed(1)}
-            GB
+            {' GB'}
           </MoreDetail>
         </span>
         <BulletChart>

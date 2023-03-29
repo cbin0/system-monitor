@@ -1,9 +1,13 @@
 import React, { useContext } from 'react';
+import { Transition as HluTransition } from '@headlessui/react';
 import { lighten, opacify } from 'color2k';
 import styled from 'styled-components';
 import { ThemeContext } from 'contexts/theme';
 
 const Title = styled.div.attrs(() => {
+  return {
+    className: 'px4 pt4'
+  };
 })(({ brand }) => {
   const { themeVars } = useContext(ThemeContext);
   if (!brand) return null;
@@ -14,7 +18,6 @@ const Title = styled.div.attrs(() => {
   return `
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;
-    padding: 1em 1em 0;
     :after {
       content: '';
       display: block;
@@ -24,6 +27,23 @@ const Title = styled.div.attrs(() => {
       background: linear-gradient(90deg, ${c}, ${c1}, ${c2})
     }`;
 });
+
+export function Transition(props) {
+  return (
+    <HluTransition
+      as={React.Fragment}
+      {...props}
+      {...{
+        enter: 'transition ease-out duration-200',
+        enterFrom: 'transform opacity-0 scale-95',
+        enterTo: 'transform opacity-100 scale-100',
+        leave: 'transition ease-in duration-150',
+        leaveFrom: 'transform opacity-100 scale-100',
+        leaveTo: 'transform opacity-0 scale-95'
+      }}
+    />
+  );
+}
 
 export function Card({ className, children }) {
   const { themeVars } = useContext(ThemeContext);

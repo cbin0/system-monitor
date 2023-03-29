@@ -12,8 +12,11 @@ export default defineConfig({
 
   resolve: {
     alias: {
+      assets: path.resolve(__dirname, 'src/assets'),
+      eles: path.resolve(__dirname, 'src/eles'),
       contexts: path.resolve(__dirname, 'src/contexts'),
       store: path.resolve(__dirname, 'src/store'),
+      resolvers: path.resolve(__dirname, 'src/data-resolvers'),
       charts: path.resolve(__dirname, 'src/eles/charts')
     }
   },

@@ -39,14 +39,14 @@ export default observer(({ commonOpt }) => {
     ...commonOpt,
     data: {
       value: cpu.voltage.value,
-      max: Math.ceil(cpu.voltage.max),
+      max: cpu.voltage.max + (Math.floor((cpu.voltage.max - 1) / 5) || 0.3),
       colors: [themeVars['percentage-color-4'], themeVars['percentage-color-5']],
       markers: [
         cpu.voltage.max
       ],
       markersTitles: [
         (v) => {
-          return `${v.toFixed(1)}`;
+          return `Max. ${v.toFixed(1)} v`;
         }
       ]
     }
@@ -61,14 +61,11 @@ export default observer(({ commonOpt }) => {
       <SingleDetail.Right>
         <i className="i-bi-lightning-fill text-3xl voltage" />
         Voltage
-        <span className="text-base font-semibold">
-          <MoreDetail className=" decoration-amber-300">
-            Max:
-            {' '}
-            {cpu.voltage.max.toFixed(1)}
-            v
-          </MoreDetail>
-        </span>
+        {/* <MoreDetail className=" decoration-amber-300">
+          {'Max. '}
+          {cpu.voltage.max.toFixed(1)}
+          {' v'}
+        </MoreDetail> */}
         <BulletChart>
           <Bullet options={voltage} />
         </BulletChart>

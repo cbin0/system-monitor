@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { observer } from 'mobx-react-lite';
 import { theme, ThemeProvider } from 'contexts/theme';

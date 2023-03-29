@@ -10,9 +10,8 @@ function Detail({ children, type, data }) {
   const c = transparentize(themeVars[`${type}-color`], 0.25);
   return (
     <div className="basis-8 flex items-center">
-      {/* <div className={`h-[100%] ${type}`} /> */}
       <div
-        className="py-1 w-26 mr2 rounded-md text-stone-200 text-lg cxy-center"
+        className="py-2 w-26 my[2px] mr4 text-stone-200 text-xl cxy-center"
         style={{
           borderLeft: `5px solid ${darken(c, 0.2)}`,
           background: c
@@ -31,7 +30,7 @@ function Detail({ children, type, data }) {
 export default observer(() => {
   const { gpu } = useContext(SysDataContext);
   const c1 = transparentize('#bbb', 0.7);
-  const c2 = darken(c1, 0.4);
+  const c2 = darken(c1, 0.2);
   return (
     <div
       className="

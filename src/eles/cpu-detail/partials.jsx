@@ -2,8 +2,7 @@ import styled, { } from 'styled-components';
 
 export const SingleDetail = styled.div.attrs({
   className: `
-    text-xl
-    flex flex-row items-stretch
+    text-xl flex flex-row items-stretch
   `
 })(() => {
   return `
@@ -13,7 +12,7 @@ export const SingleDetail = styled.div.attrs({
 SingleDetail.Left = styled.div.attrs((props) => {
   return {
     className: `
-      basis-6em flex-shrink-0 mt-4 mr-6 rounded-lg
+      basis-7em flex-shrink-0 mt-4 mr-6 rounded-lg
       cxy-center text-stone-200
     `
   };
@@ -42,9 +41,9 @@ SingleDetail.Right = styled.div.attrs({
 
 export const MoreDetail = styled.span.attrs({
   className: `
-    ml-4 text-base font-semibold
+    ml-4 text-lg font-semibold font-[abeezee]
     underline decoration-2
-    underline-offset-2
+    underline-offset-3
   `
 })(() => {});
 

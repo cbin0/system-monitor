@@ -15,7 +15,7 @@ export default observer(() => {
   // }
 
   return (
-    <div data-theme={theme.themeName} className={theme.themeVars.main}>
+    <div data-theme={theme.themeName} className={theme.classNames.main}>
       <SysDataProvider>
         <Eles />
       </SysDataProvider>

@@ -26,7 +26,7 @@ export default {
     presetIcons({
       extraProperties: {
         display: 'inline-block',
-        'vertical-align': 'midde'
+        'vertical-align': 'sub'
       },
       collections: {
         mdi,
@@ -61,16 +61,19 @@ export default {
     'cxy-center': 'flex flex-wrap items-center justify-center',
     square: 'aspect-square max-h-full'
   },
-  [/^button(-(.*))?$/, ([, c, x]) => {
+  [/^(button|btn)(-(.*))?$/, ([, x, x1, x2]) => {
     let btn = `
       rounded-lg px-3 py-2 shadow-md inline-block
       bg-sky-6 text-stone-2 hover:bg-sky-5 active:bg-sky-8 focus:outline-none
     `;
-    switch (x) {
+    switch (x2) {
       case 'danger': btn += 'bg-red-6 hover:bg-red-5 active:bg-red-8'; break;
       default: break;
     }
     return btn;
+  }],
+  [/^active$/, () => {
+    return 'bg-amber-100 text-amber-900';
   }]
   ],
   safelist: [
