@@ -18,6 +18,7 @@
     "@headlessui/react": "^1.7.13",
     "@nivo/bullet": "^0.80.0",
     "@nivo/core": "^0.80.0",
+    "@nivo/line": "^0.80.0",
     "@nivo/radial-bar": "^0.80.0",
     "@tauri-apps/api": "^1.2.0",
     "color2k": "^2.0.2",

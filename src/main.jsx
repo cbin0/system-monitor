@@ -7,6 +7,7 @@ import App from './app';
 import '@unocss/reset/tailwind.css';
 // eslint-disable-next-line import/no-unresolved
 import 'virtual:uno.css';
+import 'assets/index.css';
 
 const Loading = observer(({ children }) => {
   const allLoaded = theme.loaded;

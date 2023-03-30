@@ -9,7 +9,7 @@ export default {
   },
   variables: {
     chartBgFill: '#333',
-    'error-bg': '#ffd7d7d9',
+    'error-bg': '#ffd7d7df',
     'error-color': darken('#ff6666', 0.4),
     'warn-bg': '#f9f053f2',
     'warn-color': darken('#f9f053', 0.4),
@@ -29,6 +29,9 @@ export default {
     'bullet-bg-color-2': 'transparent',
     'bullet-bg-color-3': '#fff',
     // 'bullet-bg-color-4': '#888',
+
+    lineChartColor1: '#6a57ff',
+    gridStroke: '#eee',
 
     'percentage-color-1': '#51ff4e',
     'percentage-color-2': '#96ff22',

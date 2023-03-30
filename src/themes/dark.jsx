@@ -10,6 +10,8 @@ export default {
   },
   variables: {
     ..._default.variables,
+    lineChartColor1: '#14e680',
+    gridStroke: '#888',
     cardBg: 'bg-neutral-900/50',
     cardTitleBg: 'bg-zinc-800'
   }

@@ -10,8 +10,8 @@ import { Transition } from 'eles/comps';
 import DataSource from './datasource';
 
 const themes = [
-  ['light', 'light', 'active shadow-none'],
-  ['dark', 'dark', 'bg-stone-8 text-stone-1 b-stone-8 shadow-none']
+  ['light', 'light', 'active'],
+  ['dark', 'dark', 'bg-stone-8 text-stone-1']
 ];
 
 const ThemeForm = observer(() => {
@@ -35,7 +35,7 @@ const ThemeForm = observer(() => {
                   return `
                     relative flex cursor-pointer rounded-lg b-1 b-stone-3 px3 py1
                     shadow-md focus:outline-none
-                    ${checked ? x[2] : 'bg-stone-1'}`;
+                    ${checked ? `${x[2]} shadow-none` : 'bg-stone-1'}`;
                 }}
               >
                 {({ active, checked }) => {

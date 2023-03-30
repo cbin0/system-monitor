@@ -36,7 +36,7 @@ export default observer(({ commonOpt }) => {
         <span className="text-base font-semibold">
           <MoreDetail className=" decoration-rose-400">
             {'All. '}
-            {(ram.used.value + ram.available.value).toFixed(1)}
+            {Math.round((ram.used.value + ram.available.value))}
             {' GB'}
           </MoreDetail>
           <MoreDetail className=" decoration-rose-400">

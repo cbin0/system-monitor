@@ -8,7 +8,8 @@ import settings, { messages } from 'store/settings';
 export const SysDataContext = createContext(sysData);
 
 export function SysDataProvider({ children }) {
-  const resolver = useRef({});
+  const resolver = useRef(null);
+  const stop = () => { return resolver.current && resolver.current.stop(); };
   useEffect(() => {
     if (!resolvers[settings.ds.id]) {
       messages.push({
@@ -19,11 +20,10 @@ export function SysDataProvider({ children }) {
           please choose other one`
       });
     } else {
+      stop();
       resolver.current = new resolvers[settings.ds.id]();
     }
-    return () => {
-      resolver.current.stop();
-    };
+    return stop;
   }, [settings.ds.id]);
 
   return (

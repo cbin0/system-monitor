@@ -81,6 +81,7 @@ const settings = makeAutoObservable({
   ds: datasources.libHM,
   theme: 'dark',
   interval: 1000,
+  maxSnapshots: 20,
   windowSize: {
     width: 1400,
     height: 900

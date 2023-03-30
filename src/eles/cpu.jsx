@@ -3,8 +3,44 @@ import { observer } from 'mobx-react-lite';
 import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
 import Radial, { RadialCenter } from 'charts/radial';
+import Line, { HighlightLine } from 'charts/line';
 import { percentChartCommonConfig } from 'store/settings';
 import { Card } from './comps';
+
+function Snapshots() {
+  const { snapshots } = useContext(SysDataContext);
+  const { themeVars } = useContext(ThemeContext);
+  const data = [{
+    id: 'cpu usage',
+    // color: '#6a57ff',
+    data: snapshots.map((x) => {
+      return {
+        x: x.time,
+        y: x.cpu.usage.value
+      };
+    })
+  }];
+  const opt = {
+    yScale: {
+      type: 'linear',
+      min: 0,
+      max: 100,
+      stacked: true,
+      reverse: false
+    },
+    margin: {
+      top: 0, right: -1, bottom: 0, left: -1
+    },
+    colors: [themeVars.lineChartColor1],
+    layers: ['grid', 'areas', HighlightLine]
+  };
+
+  return (
+    <div className="h-25">
+      <Line options={opt} data={data} />
+    </div>
+  );
+}
 
 export default observer(({ className }) => {
   const { motherBoard, cpu } = useContext(SysDataContext);
@@ -29,14 +65,14 @@ export default observer(({ className }) => {
         <i className="i-ph-cpu text-2xl" />
         <span className="text-lg pl-2">{cpu.name || '...'}</span>
         <div className="pl-2 ">
-          <i className="i-radix-icons-corner-bottom-left mr-1 text-xl" />
+          <i className="i-radix-icons-corner-bottom-left align-base mr-1 text-xl" />
           <span className="text-slate-400">{motherBoard || '...'}</span>
         </div>
       </Card.Title>
       <Card.Body>
         <Radial
           options={cpuUsageChart}
-          className="w-full absolute top-[50%] translate-y-[-50%]"
+          className=""
           className2="scale-90"
         >
           <RadialCenter>
@@ -46,6 +82,7 @@ export default observer(({ className }) => {
             </span>
           </RadialCenter>
         </Radial>
+        <Snapshots />
       </Card.Body>
     </Card>
   );

@@ -1,4 +1,5 @@
 import { makeAutoObservable } from 'mobx';
+import settings from './settings';
 
 export default makeAutoObservable({
   motherBoard: '',
@@ -112,5 +113,26 @@ export default makeAutoObservable({
         max: 0
       }
     }
+  },
+
+  _snapshots: [],
+  push(v) {
+    this._snapshots.splice(settings.maxSnapshots - 1);
+    this._snapshots.unshift(v);
+  },
+  get snapshots() {
+    const snapshots = this._snapshots;
+    while (snapshots.length < settings.maxSnapshots) {
+      snapshots.push({
+        time: `placeholder${snapshots.length}`,
+        cpu: {
+          usage: {
+            value: 0,
+            max: 0
+          }
+        }
+      });
+    }
+    return snapshots;
   }
 });

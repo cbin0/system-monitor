@@ -1,0 +1,9 @@
+@font-face {
+  font-family: poppins;
+  src: url(assets/poppins.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: abeezee;
+  src: url(assets/abeezee.ttf) format("truetype");
+}

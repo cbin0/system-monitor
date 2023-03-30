@@ -1,8 +1,11 @@
-import { fetch } from '@tauri-apps/api/http';
 import settings, { messages } from 'store/settings';
 
 export default class Resolver {
   resolver() {
+    return this;
+  }
+
+  getSysInfo() {
     return this;
   }
 
@@ -64,16 +67,6 @@ export default class Resolver {
       this._tio = settings.interval;
     }
   };
-
-  async getSysInfo() {
-    const info = await fetch(`http://localhost:${settings.ds.config.port.value}/data.json`, {
-      method: 'GET',
-      timeout: settings.ds.config.httpTimeout.value
-    });
-    this.resolver(info.data);
-    // console.log(sysData);
-    // console.log(sysData.gpu.usage);
-  }
 
   stop() {
     this.iloop.stop();
