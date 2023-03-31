@@ -2,57 +2,51 @@ import { exit, relaunch } from '@tauri-apps/api/process';
 import React, {
   useRef, useContext, useEffect, useState
 } from 'react';
+import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Popover, RadioGroup } from '@headlessui/react';
 import { ThemeContext } from 'contexts/theme';
-import settings, { } from 'store/settings';
-import { Transition } from 'eles/comps';
+import settings, { messages } from 'store/settings';
+import { Transition, Radios } from 'eles/comps';
 import DataSource from './datasource';
-
-const themes = [
-  ['light', 'light', 'active'],
-  ['dark', 'dark', 'bg-stone-8 text-stone-1']
-];
 
 const ThemeForm = observer(() => {
   const theme = useContext(ThemeContext);
   return (
-    <div className="flex overflow-hidden">
-      <RadioGroup
+    <div className="p4 flex gap4">
+      <Radios
+        className="flex-1"
         value={theme.themeName}
         onChange={(v) => {
           theme.themeName = v;
         }}
-      >
-        {/* <RadioGroup.Label className="sr-only">Server size</RadioGroup.Label> */}
-        <div className="p-4 gap-4 flex">
-          {themes.map((x) => {
-            return (
-              <RadioGroup.Option
-                key={x[0]}
-                value={x[0]}
-                className={({ active, checked }) => {
-                  return `
-                    relative flex cursor-pointer rounded-lg b-1 b-stone-3 px3 py1
-                    shadow-md focus:outline-none
-                    ${checked ? `${x[2]} shadow-none` : 'bg-stone-1'}`;
-                }}
-              >
-                {({ active, checked }) => {
-                  return (
-                    <div className="flex items-center">
-                      {checked && (
-                      <i className="i-ic-baseline-check text-xl mr-2" />
-                      )}
-                      <span>{x[1]}</span>
-                    </div>
-                  );
-                }}
-              </RadioGroup.Option>
-            );
-          })}
-        </div>
-      </RadioGroup>
+        options={[
+          ['light', 'light', 'active'],
+          ['dark', 'dark', 'bg-stone-8 text-stone-1']
+        ]}
+      />
+    </div>
+  );
+});
+
+const ChangeInterval = observer(({ className }) => {
+  return (
+    <div className="p4 flex gap4 b-t">
+      <div>interval: </div>
+      <Radios
+        className="flex-1"
+        value={settings.interval}
+        onChange={action((v) => {
+          settings.interval = v;
+          messages.push({
+            id: 'interval changed',
+            type: 'warn',
+            title: 'Tip',
+            message: `Don't forget to update the interval of ${settings.ds.name}`
+          });
+        })}
+        options={[[250, '250ms'], [500, '500ms'], [1000, '1s'], [2000, '2s'], [5000, '5s'], [10000, '10s']]}
+      />
     </div>
   );
 });
@@ -66,7 +60,7 @@ const SizeForm = observer(({ className }) => {
   });
 
   return (
-    <div className="p4 b-t-1">
+    <div className="p4 b-t">
       <div className="flex items-end gap4">
         {
           ['width', 'height'].map((x) => {
@@ -108,6 +102,7 @@ export default function S() {
           lg:w-xl"
         >
           <ThemeForm />
+          <ChangeInterval />
           <SizeForm />
           <DataSource />
           <div className="p4 b-t-1 flex flex-row-reverse gap4">

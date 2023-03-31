@@ -3,7 +3,6 @@ import omit from 'lodash/omit';
 import { action } from 'mobx';
 import settings, { messages } from 'store/settings';
 import sysData from 'store/sysdata';
-import Resolver from './base';
 
 const getCore = (name) => {
   if (!/^CPU Core #\d$/.test(name)) return {};
@@ -109,24 +108,17 @@ const resolve = action((d, ...parents) => {
   });
 });
 
-export default class libHMResolver extends Resolver {
+export default {
   async getSysInfo() {
     const info = await fetch(`http://localhost:${settings.ds.config.port.value}/data.json`, {
       method: 'GET',
       timeout: settings.ds.config.httpTimeout.value
     });
-    this.resolver(info.data);
-    sysData.push({
-      time: Date.now(),
-      cpu: {
-        usage: sysData.cpu.usage
-      }
-    });
-  }
+    return info.data;
+  },
 
-  resolver(data) {
-    super.resolver(data);
+  resolve(data) {
     resolve.ctx = '';
     resolve(data);
   }
-}
+};

@@ -1,11 +1,13 @@
-import React, { useRef } from 'react';
+import React, { useRef, useContext } from 'react';
 import { Listbox } from '@headlessui/react';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import settings, { datasources } from 'store/settings';
+import { ResolverContext } from 'contexts/resolver';
 import { Transition } from 'eles/comps';
 
 export default observer(({ className }) => {
+  const resolver = useContext(ResolverContext);
   const deferedChangeConfig = useRef(action((id, value) => {
     let re = value;
     switch (settings.ds.config[id].type) {
@@ -22,7 +24,12 @@ export default observer(({ className }) => {
 
   return (
     <div className="p4 b-t-1 bg-stone-2">
-      <Listbox value={settings.ds.name} onChange={() => {}}>
+      <Listbox
+        value={settings.ds.id}
+        onChange={(v) => {
+          settings.changeDs(v); resolver.restart();
+        }}
+      >
         <div className="relative mt-1">
           <Listbox.Button className="relative w-full cursor-default rounded-lg bg-white py-2 pl-3 pr-10 text-left shadow-md focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
             <span className="block truncate">{settings.ds.name}</span>
@@ -46,7 +53,7 @@ export default observer(({ className }) => {
                         active ? 'active' : 'text-gray-900'
                       }`;
                     }}
-                    value={ds.name}
+                    value={ds.id}
                   >
                     {({ selected }) => {
                       return (

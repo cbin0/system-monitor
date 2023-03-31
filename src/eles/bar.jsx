@@ -1,6 +1,7 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import settings, { messages } from 'store/settings';
+import { ResolverProvider } from 'contexts/resolver';
 import { Card, Transition } from './comps';
 import Settings from './settings';
 
@@ -39,9 +40,11 @@ const ErrorMessage = observer(() => {
 
 export default function B() {
   return (
-    <Card className="z-11 relative resize-none w-full flex items-center overflow-visible">
-      <Settings />
-      <ErrorMessage />
-    </Card>
+    <ResolverProvider>
+      <Card className="z-11 relative resize-none w-full flex items-center overflow-visible">
+        <Settings />
+        <ErrorMessage />
+      </Card>
+    </ResolverProvider>
   );
 }

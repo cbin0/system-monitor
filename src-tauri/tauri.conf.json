@@ -18,6 +18,11 @@
     },
     "allowlist": {
       "all": false,
+      "fs": {
+        "all": true,
+        "readFile": true,
+        "writeFile": true
+      },
       "shell": {
         "all": false,
         "open": true

@@ -1,7 +1,10 @@
-import { appWindow, PhysicalSize } from '@tauri-apps/api/window';
+import { appWindow, LogicalSize } from '@tauri-apps/api/window';
 import remove from 'lodash/remove';
 import debounce from 'lodash/debounce';
-import { makeAutoObservable, observable, action } from 'mobx';
+import {
+  makeAutoObservable, observable, action
+} from 'mobx';
+// import { lazyObservable } from 'mobx-utils';
 
 export const datasources = {
   libHM: {
@@ -18,6 +21,17 @@ export const datasources = {
         value: 3,
         type: 'number',
         unit: 'seconds'
+      }
+    }
+  },
+  msiAB: {
+    id: 'msiAB',
+    name: 'MSI AfterBurner',
+    config: {
+      logFile: {
+        name: 'log file',
+        value: '',
+        type: 'string'
       }
     }
   }
@@ -62,7 +76,7 @@ export const messages = observable({
 });
 
 const applySize = debounce((t) => {
-  appWindow.setSize(new PhysicalSize(
+  appWindow.setSize(new LogicalSize(
     t.windowSize.width,
     t.windowSize.height
   )).then(() => {
@@ -78,7 +92,18 @@ const applySize = debounce((t) => {
 
 // TODO: read configuration
 const settings = makeAutoObservable({
-  ds: datasources.libHM,
+  _ds: datasources.libHM,
+  // _ds: datasources.msiAB,
+  get ds() {
+    return this._ds;
+  },
+  set ds(id) {
+    this.changeDs(id);
+  },
+  changeDs(id) {
+    this._ds = datasources[id];
+  },
+
   theme: 'dark',
   interval: 1000,
   maxSnapshots: 20,

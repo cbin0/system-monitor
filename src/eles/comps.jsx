@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Transition as HluTransition } from '@headlessui/react';
+import { observer } from 'mobx-react-lite';
+import { Transition as HluTransition, RadioGroup } from '@headlessui/react';
 import { lighten, opacify } from 'color2k';
 import styled from 'styled-components';
 import { ThemeContext } from 'contexts/theme';
@@ -42,6 +43,46 @@ export function Transition(props) {
         leaveTo: 'transform opacity-0 scale-95'
       }}
     />
+  );
+}
+
+export function Radios({
+  label, className, value, onChange, options
+}) {
+  return (
+    <RadioGroup
+      value={value}
+      onChange={onChange}
+    >
+      <RadioGroup.Label className="sr-only">{label}</RadioGroup.Label>
+      <div className={`${className} gap-4 flex flex-wrap`}>
+        {options.map((x) => {
+          return (
+            <RadioGroup.Option
+              key={x[0]}
+              value={x[0]}
+              className={({ active, checked }) => {
+                return `
+                relative flex cursor-pointer rounded-lg b-1 b-stone-3 px3 py1
+                shadow-md focus:outline-none
+                ${checked ? `${x[2] || 'active'} shadow-none` : 'bg-stone-1'}`;
+              }}
+            >
+              {({ active, checked }) => {
+                return (
+                  <div className="flex items-center">
+                    {checked && (
+                    <i className="i-ic-baseline-check text-xl mr-2" />
+                    )}
+                    <span>{x[1]}</span>
+                  </div>
+                );
+              }}
+            </RadioGroup.Option>
+          );
+        })}
+      </div>
+    </RadioGroup>
   );
 }
 

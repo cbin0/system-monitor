@@ -1,11 +1,21 @@
 import settings, { messages } from 'store/settings';
+import sysData from 'store/sysdata';
+import resovers from './index';
 
 export default class Resolver {
-  resolver() {
+  resolve(data) {
+    resovers[settings.ds.id].resolve(data);
+    sysData.push({
+      time: Date.now(),
+      cpu: {
+        usage: sysData.cpu.usage
+      }
+    });
     return this;
   }
 
-  getSysInfo() {
+  async getSysInfo() {
+    this.resolve(await resovers[settings.ds.id].getSysInfo());
     return this;
   }
 
@@ -53,8 +63,8 @@ export default class Resolver {
     },
     start(...exec) {
       if (this._started) this.stop();
+      if (exec.length) this._exec = exec;
       this._started = true;
-      this._exec = exec;
       this._looper();
     },
     stop() {
@@ -76,6 +86,10 @@ export default class Resolver {
       title: 'Resolver stoped',
       message: `${settings.ds.name} has stopped`
     });
+  }
+
+  restart() {
+    this.iloop.start();
   }
 
   constructor() {
