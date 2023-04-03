@@ -6,33 +6,6 @@ import { SingleDetail, BulletChart } from './partials';
 
 export default observer(({ commonOpt }) => {
   const { cpu } = useContext(SysDataContext);
-  // const temp = {
-  //   ...commonOpt,
-  //   data: [{
-  //     id: 'temp.',
-  //     ranges: [
-  //       0,
-  //       0.000001,
-  //       30,
-  //       60,
-  //       70,
-  //       80,
-  //       90,
-  //       95,
-  //       100,
-  //       105,
-  //       110
-  //     ],
-  //     measures: [
-  //       cpu.temperature.value
-  //     ],
-  //     markers: [
-  //       70,
-  //       90
-  //     ]
-  //   }]
-  // };
-
   const temp = {
     ...commonOpt,
     data: {

@@ -30,9 +30,9 @@ export default observer(({ className }) => {
       <Card className={`${className || ''} shrink-0 flex flex-col`}>
         <Card.Title brand={gpu.brand} className="w-full">
           <i className="i-bi-gpu-card text-2xl" />
-          <span className="text-lg pl-2">{gpu.name || '...'}</span>
+          <span className="text-md pl-2">{gpu.name || '...'}</span>
         </Card.Title>
-        <Card.Body>
+        <Card.Body className="flex flex-col">
           <div className="mx-2 square relative">
             <Radial
               options={gpuUsageChart}

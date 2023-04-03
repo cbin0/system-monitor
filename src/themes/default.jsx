@@ -19,11 +19,13 @@ export default {
     'intel-main-color': '#007cc1',
     'amd-main-color': '#ed1f23',
     'nvidia-main-color': '#71b000',
+    'unknown-main-color': '#e925cc',
 
     'temperature-color': '#e879f9',
     'power-color': '#06b6d4',
     'voltage-color': '#f59e0b',
     'memory-color': '#dd635f',
+    'clock-color': '#6dfe25',
 
     'bullet-bg-color-1': '#fff',
     'bullet-bg-color-2': 'transparent',

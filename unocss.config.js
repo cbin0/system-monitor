@@ -82,7 +82,7 @@ export default {
     'message-warn'
   ],
   rules: [
-    [/^(temperature|power|voltage|memory)$/, ([, c]) => {
+    [/^(temperature|power|voltage|memory|clock)$/, ([, c]) => {
       return {
         color: `var(--${c}-color)`,
         'border-color': `var(--${c}-color)`

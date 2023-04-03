@@ -8,33 +8,6 @@ const { min, log10, ceil } = Math;
 
 export default observer(({ commonOpt }) => {
   const { cpu } = useContext(SysDataContext);
-  // const range = Math.floor(cpu.power.package.max / 4);
-  // const power = {
-  //   ...commonOpt,
-  //   data: [{
-  //     id: 'power',
-  //     ranges: [
-  //       0,
-  //       0.000001,
-  //       range,
-  //       range * 2,
-  //       range * 3,
-  //       Math.ceil(cpu.power.package.max / 5) * 5
-  //     ],
-  //     measures: [
-  //       cpu.power.package.value,
-  //       cpu.power.cores.value,
-  //       cpu.power.memory.value
-  //     ],
-  //     markers: [
-  //       cpu.power.package.max
-  //     ],
-  //     markersTitles: [
-  //       (v) => { return `${v}`; }
-  //     ]
-  //   }]
-  // };
-
   const power = {
     ...commonOpt,
     data: {
@@ -68,11 +41,13 @@ export default observer(({ commonOpt }) => {
           {cpu.power.memory.value}
           w
         </MoreDetail> */}
-        <MoreDetail className=" decoration-indigo-400">
-          {'Cores. '}
-          {cpu.power.cores.value}
-          {' w'}
-        </MoreDetail>
+        { cpu.power.cores.value > 0 && (
+          <MoreDetail className=" decoration-indigo-400">
+            {'Cores. '}
+            {cpu.power.cores.value}
+            {' w'}
+          </MoreDetail>
+        )}
         <BulletChart>
           <Bullet options={power} />
         </BulletChart>

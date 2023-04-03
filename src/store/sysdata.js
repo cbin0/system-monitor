@@ -1,12 +1,23 @@
-import { makeAutoObservable } from 'mobx';
-import settings from './settings';
+import { makeAutoObservable, computed } from 'mobx';
+import settings, { brands } from './settings';
+
+function getBrand(d) {
+  const re = brands.find((x) => { return x[0].test(d); });
+  return re ? re[1] : 'unknown';
+}
 
 export default makeAutoObservable({
+  name: '',
   motherBoard: '',
   cpu: {
     name: '',
-    brand: '',
-    // speed: 0,
+    get brand() {
+      return getBrand(this.name);
+    },
+    clock: {
+      value: 0,
+      max: 0
+    },
     usage: {
       value: 0,
       max: 0
@@ -71,8 +82,10 @@ export default makeAutoObservable({
   },
   gpu: {
     name: '',
-    brand: '',
-    speed: {
+    get brand() {
+      return getBrand(this.name);
+    },
+    clock: {
       value: 0,
       max: 0
     },
@@ -113,6 +126,17 @@ export default makeAutoObservable({
         max: 0
       }
     }
+  },
+  processes: {
+    count: 0
+  },
+  frame: {
+    frametime: 0,
+    min: 0,
+    max: 0,
+    avg: 0,
+    '1%low': 0,
+    '0.1%low': 0
   },
 
   _snapshots: [],

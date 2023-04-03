@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import settings, { messages } from 'store/settings';
 import { ResolverProvider } from 'contexts/resolver';
+import { SysDataContext } from 'contexts/sysdata';
 import { Card, Transition } from './comps';
 import Settings from './settings';
 
@@ -38,11 +39,25 @@ const ErrorMessage = observer(() => {
   );
 });
 
+const BaseInfo = observer(() => {
+  const sysData = useContext(SysDataContext);
+  return (
+    <div>
+      <div>{sysData.name}</div>
+      {/* <div>
+        {'processes: '}
+        {sysData.processes.count}
+      </div> */}
+    </div>
+  );
+});
+
 export default function B() {
   return (
     <ResolverProvider>
       <Card className="z-11 relative resize-none w-full flex items-center overflow-visible">
         <Settings />
+        <BaseInfo />
         <ErrorMessage />
       </Card>
     </ResolverProvider>

@@ -94,7 +94,7 @@ export default observer(({ className }) => {
                 </span>
                 <div className="mt2">
                   <input
-                    className="b-1 b-stone-3 mr2 py-1 px-2"
+                    className="b-1 b-stone-3 mr2 py-1 px-2 w-[60%]"
                     type={type}
                     name={id}
                     value={value}

@@ -37,7 +37,7 @@ pub fn handle_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
         } => {
             let window = app.get_window("main").unwrap();
             match window.show() {
-                error => {}
+                _error => {}
             };
         }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {

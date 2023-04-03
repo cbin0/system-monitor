@@ -4,7 +4,12 @@ import debounce from 'lodash/debounce';
 import {
   makeAutoObservable, observable, action
 } from 'mobx';
-// import { lazyObservable } from 'mobx-utils';
+
+export const brands = [
+  [/(nvidia|geforce|gtx|rtx|grace|\wgx)/i, 'nvidia'],
+  [/(amd|ryzen|radeon|advantage)/i, 'amd'],
+  [/(intel|core|arc|i\d)/i, 'intel']
+];
 
 export const datasources = {
   libHM: {
@@ -30,9 +35,15 @@ export const datasources = {
     config: {
       logFile: {
         name: 'log file',
-        value: '',
+        value: 'E:/program/MSI Afterburner/HardwareMonitoring.hml',
         type: 'string'
       }
+      // TODO: header map
+      // headerMap: {
+      //   name: 'header map',
+      //   value: {},
+      //   type: 'object.string'
+      // }
     }
   }
 };
@@ -70,7 +81,7 @@ export const messages = observable({
       this.data.push(m);
       this.timeouts[m.id] = setTimeout(action(() => {
         remove(this.data, (x) => { return x.id === m.id; });
-      }), 4000);
+      }), 5000);
     })();
   }
 });
@@ -92,8 +103,8 @@ const applySize = debounce((t) => {
 
 // TODO: read configuration
 const settings = makeAutoObservable({
-  _ds: datasources.libHM,
-  // _ds: datasources.msiAB,
+  // _ds: datasources.libHM,
+  _ds: datasources.msiAB,
   get ds() {
     return this._ds;
   },

@@ -3,6 +3,7 @@ import omit from 'lodash/omit';
 import { action } from 'mobx';
 import settings, { messages } from 'store/settings';
 import sysData from 'store/sysdata';
+import { toNum } from './utils';
 
 const getCore = (name) => {
   if (!/^CPU Core #\d$/.test(name)) return {};
@@ -11,7 +12,7 @@ const getCore = (name) => {
   if (!core) {
     sysData.cpu.cores[coreId - 1] = {
       name: `CPU Core #${coreId}`,
-      speed: 0,
+      clock: 0,
       usage: 0,
       temperature: 0,
       voltage: 0
@@ -20,25 +21,12 @@ const getCore = (name) => {
   return sysData.cpu.cores[coreId - 1];
 };
 
-const parseValue = (v) => {
-  let re = 0;
-  const m = `${v}`.match(/^([.\d]+)\s?(.*)$/);
-  if (!m) return re;
-  re = parseFloat(m[1]) || 0;
-  if (/MB/.test(m[2])) re /= 1024;
-  return re;
-};
-
 const getValues = (d) => {
   return {
-    min: parseValue(d.Min),
-    value: parseValue(d.Value),
-    max: parseValue(d.Max)
+    min: toNum(d.Min),
+    value: toNum(d.Value),
+    max: toNum(d.Max)
   };
-};
-
-const getBrand = (d) => {
-  return (d.Text.match(/^([\w\d]*)(\s|$)/) || [null, 'unknown'])[1].toLowerCase();
 };
 
 const resolve = action((d, ...parents) => {
@@ -48,7 +36,6 @@ const resolve = action((d, ...parents) => {
   else if (/cpu.png$/.test(d.ImageURL)) {
     resolve.ctx = 'cpu';
     sysData.cpu.name = d.Text;
-    sysData.cpu.brand = getBrand(d);
   } else if (d.Text === 'CPU Total') {
     resolve.ctx = 'cpu';
     sysData.cpu.usage = getValues(d);
@@ -57,9 +44,14 @@ const resolve = action((d, ...parents) => {
       sysData.cpu.voltage = getValues(d);
     } else if (resolve.ctx === 'cpu') getCore(d.Text).voltage = getValues(d);
   } else if (d.Type === 'Clock') {
-    if (resolve.ctx === 'cpu') getCore(d.Text).speed = getValues(d);
+    const core = getCore(d.Text);
+    if (resolve.ctx === 'cpu') {
+      core.clock = getValues(d);
+      sysData.cpu.clock.value = Math.max(sysData.cpu.clock.value, core.clock.value);
+      sysData.cpu.clock.max = Math.max(sysData.cpu.clock.max, core.clock.max);
+    }
     if (resolve.ctx === 'gpu') {
-      if (d.Text === 'GPU Core') sysData.gpu.speed = getValues(d);
+      if (d.Text === 'GPU Core') sysData.gpu.clock = getValues(d);
     }
   } else if (d.Type === 'Power') {
     const v = getValues(d);
@@ -69,7 +61,6 @@ const resolve = action((d, ...parents) => {
     if (d.Text === 'GPU Package') {
       resolve.ctx = 'gpu';
       sysData.gpu.name = parents[1].Text;
-      sysData.gpu.brand = getBrand(parents[1]);
       sysData.gpu.power.package = v;
     }
   } else if (d.Type === 'Temperature') {
@@ -117,8 +108,10 @@ export default {
     return info.data;
   },
 
-  resolve(data) {
+  resolve([baseInfo, data]) {
     resolve.ctx = '';
+    sysData.cpu.clock.value = 0;
+    sysData.cpu.clock.max = 0;
     resolve(data);
   }
 };

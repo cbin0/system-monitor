@@ -62,12 +62,16 @@ export default observer(({ className }) => {
   return (
     <Card className={`${className || ''} shrink-0 flex flex-col`}>
       <Card.Title brand={cpu.brand} className="w-full">
-        <i className="i-ph-cpu text-2xl" />
-        <span className="text-lg pl-2">{cpu.name || '...'}</span>
-        <div className="pl-2 ">
-          <i className="i-radix-icons-corner-bottom-left align-base mr-1 text-xl" />
-          <span className="text-slate-400">{motherBoard || '...'}</span>
+        <div className="flex">
+          <i className="i-ph-cpu basis-7 shrink-0 text-2xl" />
+          <span className="text-md pl-2">{cpu.name || '...'}</span>
         </div>
+        {motherBoard && (
+          <div className="pl-2 flex">
+            <i className="i-radix-icons-corner-bottom-left basis-7 shrink-0 text-xl" />
+            <span className="text-slate-400">{motherBoard}</span>
+          </div>
+        )}
       </Card.Title>
       <Card.Body>
         <Radial

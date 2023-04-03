@@ -1,22 +1,35 @@
 import settings, { messages } from 'store/settings';
+import { action, toJS } from 'mobx';
+import { invoke } from '@tauri-apps/api/tauri';
 import sysData from 'store/sysdata';
 import resovers from './index';
 
 export default class Resolver {
-  resolve(data) {
-    resovers[settings.ds.id].resolve(data);
+  resolve([baseInfo, data]) {
+    sysData.name = baseInfo.name;
+    sysData.cpu.name = baseInfo.cpu.name;
+    // sysData.ram.used.value = baseInfo.ram.used / 1048576;
+    // sysData.ram.available.value = baseInfo.ram.available / 1048576;
+    sysData.processes.count = baseInfo.processes;
+    resovers[settings.ds.id].resolve([baseInfo, data]);
+    console.log('resolved:', sysData);
     sysData.push({
       time: Date.now(),
       cpu: {
-        usage: sysData.cpu.usage
+        usage: toJS(sysData.cpu.usage)
       }
     });
     return this;
   }
 
   async getSysInfo() {
-    this.resolve(await resovers[settings.ds.id].getSysInfo());
-    return this;
+    return Promise.all([
+      invoke('sys_base_info', { }),
+      resovers[settings.ds.id].getSysInfo()
+    ]).then(action((x) => {
+      console.log('data:', x);
+      this.resolve(x);
+    }));
   }
 
   iloop = {
@@ -24,7 +37,7 @@ export default class Resolver {
     _exec: null,
     _interval: null,
     // max timeout
-    _tioMax: 5000,
+    _tioMax: 4000,
     _step: 200,
     // timeout
     _tio: settings.interval,
@@ -38,7 +51,6 @@ export default class Resolver {
     },
     async _looper() {
       try {
-        console.log('fetching...', this);
         await Promise.all(this._exec.map((x) => { return x(this); }));
         this.reset();
         if (this._error) {
@@ -64,6 +76,7 @@ export default class Resolver {
     start(...exec) {
       if (this._started) this.stop();
       if (exec.length) this._exec = exec;
+      if (resovers[settings.ds.id].init) resovers[settings.ds.id].init();
       this._started = true;
       this._looper();
     },

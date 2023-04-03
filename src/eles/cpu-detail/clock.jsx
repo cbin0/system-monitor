@@ -8,39 +8,34 @@ import { SingleDetail, BulletChart, MoreDetail } from './partials';
 export default observer(({ commonOpt }) => {
   const { cpu } = useContext(SysDataContext);
   const { themeVars } = useContext(ThemeContext);
-  const voltage = {
+  const clock = {
     ...commonOpt,
     data: {
-      value: cpu.voltage.value,
-      max: cpu.voltage.max + (Math.floor((cpu.voltage.max - 1) / 5) || 0.3),
+      value: cpu.clock.value,
+      max: Math.ceil(cpu.clock.max) + 1,
       colors: [themeVars['percentage-color-4'], themeVars['percentage-color-5']],
       markers: [
-        cpu.voltage.max
+        cpu.clock.max
       ],
       markersTitles: [
         (v) => {
-          return `Max. ${v.toFixed(1)} v`;
+          return `${v.toFixed(1)} GHz`;
         }
       ]
     }
   };
 
   return (
-    <SingleDetail type="temp">
+    <SingleDetail type="clock">
       <SingleDetail.Left>
-        <span className="text-4xl">{cpu.voltage.value.toFixed(1)}</span>
-        <span className="">V</span>
+        <span className="text-4xl">{cpu.clock.value.toFixed(1)}</span>
+        <span className="">GHz</span>
       </SingleDetail.Left>
       <SingleDetail.Right>
-        <i className="i-bi-lightning-fill text-3xl voltage" />
-        Voltage
-        {/* <MoreDetail className=" decoration-amber-300">
-          {'Max. '}
-          {cpu.voltage.max.toFixed(1)}
-          {' v'}
-        </MoreDetail> */}
+        <i className="i-ic-baseline-speed text-3xl clock" />
+        Clock
         <BulletChart>
-          <Bullet options={voltage} />
+          <Bullet options={clock} />
         </BulletChart>
       </SingleDetail.Right>
     </SingleDetail>

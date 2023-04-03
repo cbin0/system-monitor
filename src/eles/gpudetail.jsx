@@ -9,7 +9,7 @@ function Detail({ children, type, data }) {
   const { themeVars } = useContext(ThemeContext);
   const c = transparentize(themeVars[`${type}-color`], 0.25);
   return (
-    <div className="basis-8 flex items-center">
+    <div title={type} className="basis-8 flex items-center">
       <div
         className="py-2 w-26 my[2px] mr4 text-stone-200 text-xl cxy-center"
         style={{
@@ -34,8 +34,8 @@ export default observer(() => {
   return (
     <div
       className="
-        p4 pt-[85px] m4 mt-[-90px] gap4 flex flex-col
-        rounded-t-[10px] rounded-b-[5px]
+        p4 pt-[85px] m4 mt-[-90px] gap4 flex-auto
+        rounded-t-[10px] rounded-b-[5px] flex flex-col justify-center
       "
       style={{
         background: `linear-gradient(to bottom, ${c1}, ${c2})`
@@ -62,8 +62,8 @@ export default observer(() => {
       <Detail
         type="memory"
         data={{
-          value: gpu.ram.used.value,
-          max: gpu.ram.total.value
+          value: gpu.ram.used.value / 1024,
+          max: gpu.ram.total.value / 1024
         }}
       >
         GB

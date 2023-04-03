@@ -4,9 +4,10 @@ import Power from './power';
 import Temperature from './temperature';
 import Voltage from './voltage';
 import Memory from './memory';
+import Clock from './clock';
 
 const items = {
-  t: Temperature, p: Power, v: Voltage, m: Memory
+  t: Temperature, p: Power, c: Clock, m: Memory
 };
 
 export default function I() {

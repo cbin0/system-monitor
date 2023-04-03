@@ -8,6 +8,9 @@ import { SingleDetail, BulletChart, MoreDetail } from './partials';
 export default observer(({ commonOpt }) => {
   const { ram } = useContext(SysDataContext);
   const { themeVars } = useContext(ThemeContext);
+  const v = (ram.used.value / 1024).toFixed(1);
+  const a = (ram.available.value / 1024).toFixed(1);
+  const total = Math.round((ram.used.value + ram.available.value) / 1024);
   const opt = {
     ...commonOpt,
     data: {
@@ -27,7 +30,7 @@ export default observer(({ commonOpt }) => {
   return (
     <SingleDetail type="temp">
       <SingleDetail.Left>
-        <span className="text-4xl">{ram.used.value.toFixed(1)}</span>
+        <span className="text-4xl">{v}</span>
         <span className="">GB</span>
       </SingleDetail.Left>
       <SingleDetail.Right>
@@ -36,12 +39,12 @@ export default observer(({ commonOpt }) => {
         <span className="text-base font-semibold">
           <MoreDetail className=" decoration-rose-400">
             {'All. '}
-            {Math.round((ram.used.value + ram.available.value))}
+            {total}
             {' GB'}
           </MoreDetail>
           <MoreDetail className=" decoration-rose-400">
             {'free. '}
-            {ram.available.value.toFixed(1)}
+            {a}
             {' GB'}
           </MoreDetail>
         </span>
