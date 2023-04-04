@@ -7,7 +7,7 @@ import {
 
 export const brands = [
   [/(nvidia|geforce|gtx|rtx|grace|\wgx)/i, 'nvidia'],
-  [/(amd|ryzen|radeon|advantage)/i, 'amd'],
+  [/(amd|ryzen|radeon|rdna|advantage)/i, 'amd'],
   [/(intel|core|arc|i\d)/i, 'intel']
 ];
 
@@ -48,29 +48,6 @@ export const datasources = {
   }
 };
 
-export const percentChartCommonConfig = {
-  maxValue: 100,
-  // tracksColor: 'rgba(130, 130, 130, 0.1)',
-  // tracksColor: 'transparent',
-  enableTracks: false,
-  startAngle: 45,
-  endAngle: 405,
-  cornerRadius: 5,
-  padding: 0.4,
-  isInteractive: false,
-  enableRadialGrid: false,
-  radialAxisStart: null,
-  circularAxisOuter: null,
-  animate: false,
-  theme: {
-    grid: {
-      line: {
-        strokeWidth: '3'
-      }
-    }
-  }
-};
-
 export const messages = observable({
   timeouts: {},
   data: [],
@@ -95,7 +72,7 @@ const applySize = debounce((t) => {
     messages.push({
       id: 'change window size',
       type: 'success',
-      title: 'Window size saved',
+      title: 'Window size',
       message: `Width: ${t.windowSize.width}, Height: ${t.windowSize.height}`
     });
   });
@@ -132,6 +109,8 @@ const settings = makeAutoObservable({
       width: Math.min(+width || this.windowSize.width, 10000),
       height: Math.min(+height || this.windowSize.height, 5000)
     };
+  },
+  applySize() {
     applySize(this);
   }
 });

@@ -39,6 +39,9 @@ pub fn handle_system_tray_event(app: &AppHandle, event: SystemTrayEvent) {
             match window.show() {
                 _error => {}
             };
+            match window.set_focus() {
+                _error => {}
+            }
         }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "quit" => {

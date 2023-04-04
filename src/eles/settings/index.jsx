@@ -1,7 +1,7 @@
-import { exit, relaunch } from '@tauri-apps/api/process';
 import React, {
   useRef, useContext, useEffect, useState
 } from 'react';
+import { exit, relaunch } from '@tauri-apps/api/process';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Popover, RadioGroup } from '@headlessui/react';
@@ -57,6 +57,7 @@ const SizeForm = observer(({ className }) => {
     settings.setWindowSize({
       [e.target.name]: e.target.value
     });
+    settings.applySize();
   });
 
   return (
@@ -109,7 +110,7 @@ export default function S() {
             <a
               href="##"
               className="btn-danger"
-              onClick={() => { exit(1); }}
+              onClick={() => { exit(0); }}
             >
               <i className="i-ic-baseline-cancel text-xl mr1" />
               Quit

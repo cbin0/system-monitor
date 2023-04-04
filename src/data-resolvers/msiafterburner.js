@@ -7,8 +7,10 @@ import { toNum } from './utils';
 const headers = {};
 const temp = [];
 
+const endLineExp = /(\\r)?\\n/;
+
 const trim = (x) => {
-  const r = x.replace(/(\\r)?\\n/, '').trim();
+  const r = x.replace(endLineExp, '').trim();
   if (r === '\\xef\\xbf\\xbdC') return 'celsius';
   return r;
 };
@@ -34,57 +36,6 @@ const getLogFile = () => {
     return null;
   }
   return settings.ds.config.logFile.value;
-};
-
-const resolve = (d) => {
-  if (d[1].err) {
-    messages.push({
-      id: 'msi get log data',
-      type: 'error',
-      title: 'Cant\'t get msi afterburner log data',
-      message: `Get msi afterburner log data: ${d[1].err}.`
-    });
-    return;
-  }
-
-  action(() => {
-    if (!d[1].data) return;
-    d[1].data.forEach((x) => {
-      x.split(',').forEach((c, i) => {
-        if (i < 2) return;
-        if (i === 0 && trim(c) !== '80') return;
-        temp[i - 2][1].value = trim(c);
-      });
-    });
-    sysData.ram.usage.value = (d[0].ram.used * 100) / d[0].ram.total;
-    sysData.ram.used.value = d[0].ram.used;
-    sysData.ram.available.value = d[0].ram.available;
-    sysData.gpu.usage.value = getValue('GPU usage').value;
-    sysData.gpu.temperature.value = getValue('GPU temperature').value;
-    const gpuPower = getValue('Power');
-    sysData.gpu.power.package.value = gpuPower.value;
-    sysData.gpu.power.package.min = gpuPower.min;
-    sysData.gpu.power.package.max = gpuPower.max;
-    const gpuRam = getValue('Memory usage');
-    sysData.gpu.ram.used.value = gpuRam.value;
-    sysData.gpu.ram.total.value = gpuRam.max;
-    sysData.gpu.ram.usage.value = (gpuRam.value * 100) / gpuRam.max;
-    sysData.cpu.temperature.value = getValue('CPU temperature').value;
-    const cpuPower = getValue('CPU power');
-    sysData.cpu.power.package.value = cpuPower.value;
-    sysData.cpu.power.package.max = cpuPower.max;
-    const cpuClock = getValue('CPU clock');
-    sysData.cpu.clock.value = cpuClock.value;
-    sysData.cpu.clock.max = cpuClock.max;
-    sysData.cpu.usage.value = getValue('CPU usage').value.toFixed(0);
-    sysData.frame.frametime = getValue('Frametime').value;
-    sysData.frame.min = getValue('Framerate Min').value;
-    sysData.frame.avg = getValue('Framerate Avg').value;
-    sysData.frame.max = getValue('Framerate Max').value;
-    sysData.frame['1%low'] = getValue('Framerate 1% Low').value;
-    sysData.frame['0.1%low'] = getValue('Framerate 0.1% Low').value;
-  })();
-  console.log('temp:', temp);
 };
 
 const getHeaders = () => {
@@ -129,9 +80,59 @@ const getHeaders = () => {
   }));
 };
 
+const resolve = (d) => {
+  if (d[1].err) {
+    messages.push({
+      id: 'msi get log data',
+      type: 'error',
+      title: 'Cant\'t get msi afterburner log data',
+      message: `Get msi afterburner log data: ${d[1].err}.`
+    });
+    return;
+  }
+
+  action(() => {
+    if (!d[1].data) return;
+    d[1].data.forEach((x) => {
+      const values = x.split(',');
+      const ind = values.splice(0, 2);
+      if (trim(ind[0]) !== '80') return;
+      if (values.length !== temp.length) getHeaders();
+      values.forEach((c, i) => { temp[i][1].value = trim(c); });
+    });
+    sysData.ram.usage.value = (d[0].ram.used * 100) / d[0].ram.total;
+    sysData.ram.used.value = d[0].ram.used;
+    sysData.ram.available.value = d[0].ram.available;
+    sysData.gpu.usage.value = getValue('GPU usage').value;
+    sysData.gpu.temperature.value = getValue('GPU temperature').value;
+    const gpuPower = getValue('Power');
+    sysData.gpu.power.package.value = gpuPower.value;
+    sysData.gpu.power.package.min = gpuPower.min;
+    sysData.gpu.power.package.max = gpuPower.max;
+    const gpuRam = getValue('Memory usage');
+    sysData.gpu.ram.used.value = gpuRam.value;
+    sysData.gpu.ram.total.value = gpuRam.max;
+    sysData.gpu.ram.usage.value = (gpuRam.value * 100) / gpuRam.max;
+    sysData.cpu.temperature.value = getValue('CPU temperature').value;
+    const cpuPower = getValue('CPU power');
+    sysData.cpu.power.package.value = cpuPower.value;
+    sysData.cpu.power.package.max = cpuPower.max;
+    const cpuClock = getValue('CPU clock');
+    sysData.cpu.clock.value = cpuClock.value;
+    sysData.cpu.clock.max = cpuClock.max;
+    sysData.cpu.usage.value = getValue('CPU usage').value.toFixed(0);
+    sysData.frame.frametime = getValue('Frametime').value;
+    sysData.frame.min = getValue('Framerate Min').value;
+    sysData.frame.avg = getValue('Framerate Avg').value;
+    sysData.frame.max = getValue('Framerate Max').value;
+    sysData.frame['1%low'] = getValue('Framerate 1% Low').value;
+    sysData.frame['0.1%low'] = getValue('Framerate 0.1% Low').value;
+  })();
+  console.log('temp:', temp);
+};
+
 export default {
   init() {
-    getHeaders();
   },
 
   async getSysInfo() {

@@ -21,23 +21,38 @@ export default function P({
 }) {
   const opt = {
     data: [],
-    maxValue: 'auto',
+    // maxValue: 'auto',
+    maxValue: 100,
     valueFormat: (v) => { return `${v}`; },
-    endAngle: 360,
     innerRadius: 0.55,
-    padding: 0.6,
-    cornerRadius: 45,
+    enableTracks: false,
+    startAngle: 45,
+    endAngle: 405,
+    cornerRadius: 5,
+    padding: 0.4,
     margin: {
       top: 0, right: 0, bottom: 0, left: 0
     },
-    tracksColor: 'rgba(0, 0, 0, 0.15)',
-    labelsTextColor: { theme: 'labels.text.fill' },
+    // tracksColor: 'rgba(0, 0, 0, 0.15)',
+    // labelsTextColor: { theme: 'labels.text.fill' },
+    isInteractive: false,
+    enableRadialGrid: false,
+    radialAxisStart: null,
+    circularAxisOuter: null,
     legends: [],
+    animate: false,
+    theme: {
+      grid: {
+        line: {
+          strokeWidth: '3'
+        }
+      }
+    },
     ...options
   };
   return (
     <div className={`${className || ''} square`}>
-      <div className={`${className2 || ''} square relative m-auto`}>
+      <div className="scale-90 square relative m-auto">
         {children}
         <ResponsiveRadialBar {...opt} />
       </div>

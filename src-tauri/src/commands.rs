@@ -18,17 +18,6 @@ pub fn sys_base_info() -> Value {
             // .with_processes(ProcessRefreshKind::new().with_cpu())
             .with_disks_list(),
     );
-    // println!("System name:             {:?}", sys.name());
-    // println!("System kernel version:   {:?}", sys.kernel_version());
-    // println!("System OS version:       {:?}", sys.os_version());
-    // println!("System host name:        {:?}", sys.host_name());
-    // println!("cores: {}", sys.physical_core_count().ok_or(0).unwrap());
-    // println!("cpu: {}", sys.cpus().first().expect("REASON").name());
-    // println!("cpu brand: {}", sys.cpus().first().expect("REASON").brand());
-    // println!("cpu total memory: {}", sys.total_memory());
-    // println!("processes: {}", sys.processes().len());
-    // println!("me: {}", sys.processes_by_exact_name("HWiNFO64").count());
-    // println!("disks: {}", sys.disks().len());
 
     let mut disks = vec![];
 
@@ -67,7 +56,6 @@ pub fn msi_log_headers(log_file: &str) -> Value {
         });
     }
     let mut reader = BufReader::new(f.unwrap());
-
     let mut buf = vec![];
     let mut gpu_name = String::new();
     let mut headers = vec![];

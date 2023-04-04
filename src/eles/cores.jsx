@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
+import { observer } from 'mobx-react-lite';
 import { SysDataContext } from 'contexts/sysdata';
 
-export default function C() {
+export default observer(() => {
   const { cpu } = useContext(SysDataContext);
   return (
     <div className="">
@@ -10,4 +11,4 @@ export default function C() {
       {cpu.cores.length}
     </div>
   );
-}
+});

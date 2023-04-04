@@ -34,7 +34,7 @@ export default observer(({ commonOpt }) => {
             i-ic-round-power
             text-3xl power"
         />
-        Power
+        CPU Power
         {/* <MoreDetail className=" decoration-blue-400">
           Memory:
           {' '}

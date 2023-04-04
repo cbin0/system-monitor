@@ -4,7 +4,6 @@ import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
 import Radial, { RadialCenter } from 'charts/radial';
 import Line, { HighlightLine } from 'charts/line';
-import { percentChartCommonConfig } from 'store/settings';
 import { Card } from './comps';
 
 function Snapshots() {
@@ -46,7 +45,6 @@ export default observer(({ className }) => {
   const { motherBoard, cpu } = useContext(SysDataContext);
   const { themeVars } = useContext(ThemeContext);
   const cpuUsageChart = {
-    ...percentChartCommonConfig,
     data: [{
       id: 'cpu usage',
       data: [
@@ -73,12 +71,8 @@ export default observer(({ className }) => {
           </div>
         )}
       </Card.Title>
-      <Card.Body>
-        <Radial
-          options={cpuUsageChart}
-          className=""
-          className2="scale-90"
-        >
+      <Card.Body className="flex flex-col justify-between">
+        <Radial options={cpuUsageChart}>
           <RadialCenter>
             <span className="text-4xl text-slate-200">
               {cpu.usage.value}

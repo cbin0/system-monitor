@@ -1,5 +1,7 @@
 import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
+import { appWindow } from '@tauri-apps/api/window';
+import { exit } from '@tauri-apps/api/process';
 import settings, { messages } from 'store/settings';
 import { ResolverProvider } from 'contexts/resolver';
 import { SysDataContext } from 'contexts/sysdata';
@@ -13,6 +15,27 @@ function getMsIcon(t) {
     case 'success': return 'i-mdi-check-circle';
     default: return null;
   }
+}
+
+function WindowOpt() {
+  return (
+    <div className="flex p1 gap1 items-stretch">
+      <button
+        type="button"
+        onClick={() => { appWindow.toggleMaximize(); }}
+        className="flex px3 cxy-center hover:bg-orange-4/80 hover:text-stone-1 rounded-md"
+      >
+        <i className="i-tabler-maximize text-3xl" />
+      </button>
+      <button
+        type="button"
+        onClick={() => { exit(0); }}
+        className="flex px3 cxy-center hover:bg-rose-6/80 hover:text-stone-1 rounded-md"
+      >
+        <i className="i-mdi-window-close text-3xl" />
+      </button>
+    </div>
+  );
 }
 
 const ErrorMessage = observer(() => {
@@ -42,22 +65,27 @@ const ErrorMessage = observer(() => {
 const BaseInfo = observer(() => {
   const sysData = useContext(SysDataContext);
   return (
-    <div>
+    <button
+      type="button"
+      onMouseDown={() => { appWindow.startDragging(); }}
+      className="flex-1 flex items-center cursor-move"
+    >
       <div>{sysData.name}</div>
       {/* <div>
         {'processes: '}
         {sysData.processes.count}
       </div> */}
-    </div>
+    </button>
   );
 });
 
 export default function B() {
   return (
     <ResolverProvider>
-      <Card className="z-11 relative resize-none w-full flex items-center overflow-visible">
+      <Card className="z-11 relative resize-none w-full flex items-stretch gap4 overflow-visible">
         <Settings />
         <BaseInfo />
+        <WindowOpt />
         <ErrorMessage />
       </Card>
     </ResolverProvider>

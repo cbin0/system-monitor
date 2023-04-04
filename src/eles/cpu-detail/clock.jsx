@@ -33,7 +33,7 @@ export default observer(({ commonOpt }) => {
       </SingleDetail.Left>
       <SingleDetail.Right>
         <i className="i-ic-baseline-speed text-3xl clock" />
-        Clock
+        CPU Clock
         <BulletChart>
           <Bullet options={clock} />
         </BulletChart>

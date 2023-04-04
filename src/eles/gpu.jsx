@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
 import Radial, { RadialCenter } from 'charts/radial';
-import { percentChartCommonConfig } from 'store/settings';
 import { Card } from './comps';
 import GpuDtail from './gpudetail';
 
@@ -11,7 +10,6 @@ export default observer(({ className }) => {
   const { gpu } = useContext(SysDataContext);
   const { themeVars } = useContext(ThemeContext);
   const gpuUsageChart = {
-    ...percentChartCommonConfig,
     data: [{
       id: 'gpu usage',
       data: [
@@ -36,8 +34,7 @@ export default observer(({ className }) => {
           <div className="mx-2 square relative">
             <Radial
               options={gpuUsageChart}
-              className="w-full absolute top-[50%] translate-y-[-50%]"
-              className2="scale-90"
+              // className="w-full absolute top-[50%] translate-y-[-50%]"
             >
               <RadialCenter>
                 <span className="text-4xl text-slate-200">
