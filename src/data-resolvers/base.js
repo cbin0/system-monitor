@@ -16,7 +16,8 @@ export default class Resolver {
     sysData.push({
       time: Date.now(),
       cpu: {
-        usage: toJS(sysData.cpu.usage)
+        usage: toJS(sysData.cpu.usage),
+        cores: toJS(sysData.cpu.cores)
       }
     });
     return this;

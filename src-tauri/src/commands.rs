@@ -25,16 +25,18 @@ pub fn sys_base_info() -> Value {
         disks.push(json!({
             "name": disk.name().to_str(),
             "file_system": disk.file_system().escape_ascii().to_string(),
-            "total_space": disk.total_space(),
-            "available_space": disk.available_space(),
+            "total_space": disk.total_space() / 1048576,
+            "available_space": disk.available_space() / 1048576,
             "mount_point": disk.mount_point()
         }))
     }
 
+    let cpu = sys.cpus().first().expect("unknown");
+
     json!({
         "name": sys.host_name(),
         "cpu": {
-            "name": sys.cpus().first().expect("unknown").brand()
+            "name": cpu.brand()
         },
         "ram": {
             "used": sys.used_memory() / 1048576,
@@ -56,8 +58,8 @@ pub fn msi_log_headers(log_file: &str) -> Value {
         });
     }
     let mut reader = BufReader::new(f.unwrap());
+    let mut gpu_name = "unknown".into();
     let mut buf = vec![];
-    let mut gpu_name = String::new();
     let mut headers = vec![];
     let mut header_detail: Vec<Vec<String>> = vec![];
 
@@ -78,7 +80,7 @@ pub fn msi_log_headers(log_file: &str) -> Value {
                         gpu_name = buf
                             .split(|x| x == &44u8)
                             .last()
-                            .unwrap()
+                            .unwrap_or_default()
                             .escape_ascii()
                             .to_string();
                     }

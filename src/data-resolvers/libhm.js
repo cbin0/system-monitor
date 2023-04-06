@@ -3,22 +3,16 @@ import omit from 'lodash/omit';
 import { action } from 'mobx';
 import settings, { messages } from 'store/settings';
 import sysData from 'store/sysdata';
-import { toNum } from './utils';
+import { toNum, getCore } from './utils';
 
-const getCore = (name) => {
-  if (!/^CPU Core #\d$/.test(name)) return {};
-  const coreId = parseInt(name.split('#')[1], 10);
-  const core = sysData.cpu.cores[coreId - 1];
-  if (!core) {
-    sysData.cpu.cores[coreId - 1] = {
-      name: `CPU Core #${coreId}`,
-      clock: 0,
-      usage: 0,
-      temperature: 0,
-      voltage: 0
-    };
-  }
-  return sysData.cpu.cores[coreId - 1];
+const aThread = /^CPU Core #(\d)( Thread #(\d))?$/;
+
+const libhmGetCore = (name) => {
+  const x = name.match(aThread);
+  if (!x) return {};
+  const coreId = parseInt(x[1], 10);
+  const threadId = parseInt(x[3], 10);
+  return [getCore(coreId - 1), threadId];
 };
 
 const getValues = (d) => {
@@ -42,13 +36,15 @@ const resolve = action((d, ...parents) => {
   } else if (d.Type === 'Voltage') {
     if (d.Text === 'CPU Core') {
       sysData.cpu.voltage = getValues(d);
-    } else if (resolve.ctx === 'cpu') getCore(d.Text).voltage = getValues(d);
+    } else if (resolve.ctx === 'cpu') libhmGetCore(d.Text)[0].voltage = getValues(d);
   } else if (d.Type === 'Clock') {
-    const core = getCore(d.Text);
     if (resolve.ctx === 'cpu') {
-      core.clock = getValues(d);
-      sysData.cpu.clock.value = Math.max(sysData.cpu.clock.value, core.clock.value);
-      sysData.cpu.clock.max = Math.max(sysData.cpu.clock.max, core.clock.max);
+      const core = libhmGetCore(d.Text)[0];
+      if (core) {
+        core.clock = getValues(d);
+        sysData.cpu.clock.value = Math.max(sysData.cpu.clock.value, core.clock.value);
+        sysData.cpu.clock.max = Math.max(sysData.cpu.clock.max, core.clock.max);
+      }
     }
     if (resolve.ctx === 'gpu') {
       if (d.Text === 'GPU Core') sysData.gpu.clock = getValues(d);
@@ -65,7 +61,12 @@ const resolve = action((d, ...parents) => {
     }
   } else if (d.Type === 'Temperature') {
     if (d.Text === 'CPU Package') sysData.cpu.temperature = getValues(d);
-    else if (resolve.ctx === 'cpu') getCore(d.Text).temperature = getValues(d);
+    else if (resolve.ctx === 'cpu') {
+      const core = libhmGetCore(d.Text)[0];
+      if (core) {
+        core.temperature = getValues(d);
+      }
+    }
     if (d.Text === 'GPU Core') sysData.gpu.temperature = getValues(d);
   } else if (d.Type === 'Load') {
     const v = getValues(d);
@@ -75,6 +76,10 @@ const resolve = action((d, ...parents) => {
       case 'Memory': sysData.ram.usage = v; break;
       case 'Virtual Memory': sysData.ram.virtual.usage = v; break;
       default: break;
+    }
+    if (aThread.test(d.Text)) {
+      const [core, t] = libhmGetCore(d.Text);
+      core.threads[t - 1].usage = v;
     }
   } else if (d.Type === 'Data') {
     const v = getValues(d);

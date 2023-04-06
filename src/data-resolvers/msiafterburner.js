@@ -2,7 +2,7 @@ import { action } from 'mobx';
 import { invoke } from '@tauri-apps/api/tauri';
 import sysData from 'store/sysdata';
 import settings, { messages } from 'store/settings';
-import { toNum } from './utils';
+import { toNum, getCore } from './utils';
 
 const headers = {};
 const temp = [];
@@ -121,6 +121,18 @@ const resolve = (d) => {
     sysData.cpu.clock.value = cpuClock.value;
     sysData.cpu.clock.max = cpuClock.max;
     sysData.cpu.usage.value = getValue('CPU usage').value.toFixed(0);
+    for (let x = 1; x <= 256; x += 1) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const c of ['clock', 'temperature', 'usage']) {
+        const name = `CPU${x} ${c}`;
+        if (name in headers) {
+          const core = getCore(Math.ceil(x / 2) - 1);
+          if (/usage/.test(c)) {
+            core.threads[x % 2][c] = getValue(name);
+          } else core[c] = getValue(name);
+        }
+      }
+    }
     sysData.frame.frametime = getValue('Frametime').value;
     sysData.frame.min = getValue('Framerate Min').value;
     sysData.frame.avg = getValue('Framerate Avg').value;
