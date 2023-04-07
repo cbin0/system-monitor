@@ -117,6 +117,13 @@ export default {
     resolve.ctx = '';
     sysData.cpu.clock.value = 0;
     sysData.cpu.clock.max = 0;
+    sysData.frame.frametime = 0;
+    sysData.frame.framerate = 0;
+    sysData.frame.min = 0;
+    sysData.frame.avg = 0;
+    sysData.frame.max = 0;
+    sysData.frame['1%low'] = 0;
+    sysData.frame['0.1%low'] = 0;
     resolve(data);
   }
 };

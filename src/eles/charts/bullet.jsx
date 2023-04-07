@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import styled, { } from 'styled-components';
+import { observer } from 'mobx-react-lite';
 import { ThemeContext } from 'contexts/theme';
 
 // const borderRotation = keyframes`
@@ -84,7 +85,7 @@ const BulletContainer = styled.div.attrs(() => {
   return {
     className: 'h-full relative bg-transparent'
   };
-})(({ xrounded }) => {
+})(observer(({ xrounded }) => {
   const { themeVars } = useContext(ThemeContext);
   return `
     border-radius: ${xrounded};
@@ -128,7 +129,7 @@ const BulletContainer = styled.div.attrs(() => {
       filter: blur(.1em);
     }
   `;
-});
+}));
 
 export default function P({ className, options: { data, rounded } }) {
   const { max, markers, markersTitles } = data;

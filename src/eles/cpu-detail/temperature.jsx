@@ -23,8 +23,8 @@ export default observer(({ commonOpt }) => {
       <SingleDetail.Left>
         <span className="text-4xl">
           {cpu.temperature.value}
-          <i className="i-tabler-temperature-celsius" />
         </span>
+        <i className="text-3xl i-tabler-temperature-celsius" />
       </SingleDetail.Left>
       <SingleDetail.Right>
         <i className="i-carbon-temperature-celsius text-3xl temperature" />

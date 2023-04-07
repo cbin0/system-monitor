@@ -5,7 +5,7 @@ use std::vec;
 use std::{fs::File, io::BufRead};
 use sysinfo::{
     CpuExt, CpuRefreshKind, DiskExt, NetworkExt, NetworksExt, ProcessExt, ProcessRefreshKind,
-    RefreshKind, System, SystemExt,
+    RefreshKind, System, SystemExt, UserExt,
 };
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -14,8 +14,9 @@ pub fn sys_base_info() -> Value {
     let sys = System::new_with_specifics(
         RefreshKind::new()
             .with_memory()
-            .with_cpu(CpuRefreshKind::everything())
+            .with_cpu(CpuRefreshKind::new())
             // .with_processes(ProcessRefreshKind::new().with_cpu())
+            .with_users_list()
             .with_disks_list(),
     );
 
@@ -36,7 +37,9 @@ pub fn sys_base_info() -> Value {
     json!({
         "name": sys.host_name(),
         "cpu": {
-            "name": cpu.brand()
+            "name": cpu.brand(),
+            // "usage": cpu.cpu_usage(),
+            // "clock": cpu.frequency()
         },
         "ram": {
             "used": sys.used_memory() / 1048576,
@@ -44,6 +47,12 @@ pub fn sys_base_info() -> Value {
             "total": sys.total_memory() / 1048576
         },
         "processes": sys.processes().len(),
+        "user": sys.users().iter().map(|x| json!({
+            "name": x.name(),
+            "uid": x.id().to_string(),
+            "gid": x.group_id().to_string(),
+            "groups": x.groups(),
+        })).collect::<Value>(),
         "disks": disks
     })
 }

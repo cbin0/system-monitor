@@ -22,6 +22,7 @@ yarn tauri dev
 ## Data sources
 
 1. [LibreHardwareMonitor](https://github.com/LibreHardwareMonitor/LibreHardwareMonitor)
+2. [Msi Afterburner](https://www.msi.com/Landing/afterburner/graphics-cards)
 
 # License
 MIT

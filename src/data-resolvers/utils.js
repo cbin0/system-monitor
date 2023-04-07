@@ -41,11 +41,13 @@ export const getCore = (i) => {
         max: 0
       },
       threads: [{
+        name: `CPU Core #${i + 1} Thread #1`,
         usage: {
           value: 0,
           max: 0
         }
       }, {
+        name: `CPU Core #${i + 1} Thread #2`,
         usage: {
           value: 0,
           max: 0

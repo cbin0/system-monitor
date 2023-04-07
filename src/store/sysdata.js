@@ -131,6 +131,7 @@ export default makeAutoObservable({
     count: 0
   },
   frame: {
+    framerate: 0,
     frametime: 0,
     min: 0,
     max: 0,

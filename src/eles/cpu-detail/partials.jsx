@@ -2,7 +2,7 @@ import styled, { } from 'styled-components';
 
 export const SingleDetail = styled.div.attrs({
   className: `
-    text-xl flex flex-row items-stretch
+    text-xl px2 flex flex-row items-stretch
   `
 })(() => {
   return `
@@ -12,7 +12,7 @@ export const SingleDetail = styled.div.attrs({
 SingleDetail.Left = styled.div.attrs((props) => {
   return {
     className: `
-      basis-7em flex-shrink-0 mt-4 mr-6 rounded-lg
+      basis-7em flex-shrink-0 my1 mr4 rounded-lg
       cxy-center text-stone-200
     `
   };
@@ -22,8 +22,7 @@ SingleDetail.Left = styled.div.attrs((props) => {
     background: ${c};
     box-shadow: 0 0 20px -4px ${c};
     > :nth-child(2) {
-      vertical-align: text-top;
-      margin: -0.5em 0 0 0.5em;
+      margin: -10px 0px 0px 10px;
     }
   `;
 });

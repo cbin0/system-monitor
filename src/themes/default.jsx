@@ -5,7 +5,9 @@ export default {
   classNames: {
     main: `
       h-[100vh] overflow-hidden rounded-lg backdrop-blur-lg font-[poppins]
-    `
+    `,
+    fps: 'p2 px1 flex gap2 items-center justify-evenly rounded-md text-xl',
+    fpsDivide: 'self-center w1 h2 rounded-lg'
   },
   variables: {
     chartBgFill: '#333',

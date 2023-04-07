@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-import { observer } from 'mobx-react-lite';
 import { Transition as HluTransition, RadioGroup } from '@headlessui/react';
 import { lighten, opacify } from 'color2k';
 import styled from 'styled-components';
@@ -15,7 +14,6 @@ const Title = styled.div.attrs(() => {
   const c = themeVars[`${brand}-main-color`];
   const c1 = lighten(c, 0.2);
   const c2 = lighten(c, 0.4);
-  console.log(brand);
   return `
     border-top-left-radius: inherit;
     border-top-right-radius: inherit;

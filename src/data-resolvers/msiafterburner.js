@@ -134,6 +134,7 @@ const resolve = (d) => {
       }
     }
     sysData.frame.frametime = getValue('Frametime').value;
+    sysData.frame.framerate = getValue('Framerate').value;
     sysData.frame.min = getValue('Framerate Min').value;
     sysData.frame.avg = getValue('Framerate Avg').value;
     sysData.frame.max = getValue('Framerate Max').value;

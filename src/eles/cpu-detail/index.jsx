@@ -5,9 +5,10 @@ import Temperature from './temperature';
 import Voltage from './voltage';
 import Memory from './memory';
 import Clock from './clock';
+import Fps from './fps';
 
 const items = {
-  t: Temperature, p: Power, c: Clock, m: Memory
+  f: Fps, t: Temperature, p: Power, c: Clock, m: Memory
 };
 
 export default function I() {
@@ -16,7 +17,7 @@ export default function I() {
   };
 
   return (
-    <div className="h-full flex flex-col justify-around p-[1em_2em]">
+    <div className="h-full flex flex-col justify-around p[0.5em_1em]">
       {
         Object.keys(items).map((k) => {
           const X = items[k];

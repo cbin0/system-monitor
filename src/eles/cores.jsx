@@ -5,7 +5,9 @@ import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
 import Line, { HighlightLine } from 'charts/line';
 
-function Snapshots({ core, thread, type }) {
+function Snapshots({
+  className, core, thread, type
+}) {
   const { snapshots } = useContext(SysDataContext);
   const { themeVars } = useContext(ThemeContext);
   const data = [{
@@ -38,7 +40,7 @@ function Snapshots({ core, thread, type }) {
   };
 
   return (
-    <div className={`h-15 flex-1 ${themeVars.lineChartBorder}`}>
+    <div className={`${className || ''} h-15 flex-1 ${themeVars.lineChartBorder}`}>
       <Line options={opt} data={data} />
     </div>
   );
@@ -57,43 +59,74 @@ export default observer(() => {
   }
   return (
     <>
-      <div className="p4 flex items-center hover:opacity-80">
-        <i className={`text-2xl mr2 ${show ? 'i-ic:round-keyboard-arrow-down' : 'i-ic:round-keyboard-arrow-right'}`} />
-        <button type="button" onClick={() => { setShow(!show); }}>
-          Cores:
-          {' '}
-          {cpu.cores.length}
+      <div className="p4 flex gap4">
+        <button className="whitespace-nowrap hover:opacity-80 flex items-center" type="button" onClick={() => { setShow(!show); }}>
+          <i className={`text-2xl mr2 ${show ? 'i-ic:round-keyboard-arrow-down' : 'i-ic:round-keyboard-arrow-right'}`} />
+          <span>
+            {'Cores: '}
+            {cpu.cores.length}
+          </span>
         </button>
+        {show || (
+        <div className="flex-1 flex gap2">
+          {cpu.cores.slice(0, 4).map(({
+            name, temperature, clock, threads
+          }, c) => {
+            return (
+              <div key={name} className="flex-1 flex items-center">
+                <div>
+                  {/* <span className="text-2xl">{`#${c + 1}`}</span> */}
+                  {/* <span className="text-md">
+                    {temperature.value}
+                    <i className="text-xl ml1 align-text-top i-tabler-temperature-celsius" />
+                  </span>
+                  <span className="mx2">/</span>
+                  <span className="text-md">
+                    {clock.value.toFixed(1)}
+                    {' '}
+                    GHz
+                  </span> */}
+                </div>
+                <div className="gap2 flex-1 flex justify-around">
+                  {threads.map((x, t) => {
+                    return <Snapshots key={x.name} className="h8" core={c} thread={t} type="usage" />;
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+        )}
       </div>
       {show && (
-      <div className="flex flex-wrap gap6 p4 pt-0">
-        {cpu.cores.map(({
-          name, temperature, clock, threads
-        }, c) => {
-          return (
-            <div style={{ width: `calc(${w}% - 0.75em)` }} className="">
-              <div>
-                <span className="text-2xl mr4">{`#${c + 1}`}</span>
-                <span className="text-md">
-                  {temperature.value}
-                  <i className="i-carbon-temperature-celsius ml1 align-mid" />
-                </span>
-                <span className="mx2">/</span>
-                <span className="text-md">
-                  {clock.value.toFixed(1)}
-                  {' '}
-                  GHz
-                </span>
+        <div className="flex flex-wrap gap6 p4 pt-0">
+          {cpu.cores.map(({
+            name, temperature, clock, threads
+          }, c) => {
+            return (
+              <div key={name} style={{ width: `calc(${w}% - 0.75em)` }} className="">
+                <div>
+                  <span className="text-2xl mr4">{`#${c + 1}`}</span>
+                  <span className="text-md">
+                    {temperature.value}
+                    <i className="text-xl ml1 align-text-top i-tabler-temperature-celsius" />
+                  </span>
+                  <span className="mx2">/</span>
+                  <span className="text-md">
+                    {clock.value.toFixed(1)}
+                    {' '}
+                    GHz
+                  </span>
+                </div>
+                <div className="gap4 flex">
+                  {threads.map((x, t) => {
+                    return <Snapshots key={x.name} core={c} thread={t} type="usage" />;
+                  })}
+                </div>
               </div>
-              <div className="gap2 flex">
-                {threads.map((x, t) => {
-                  return <Snapshots core={c} thread={t} type="usage" />;
-                })}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
       )}
     </>
   );

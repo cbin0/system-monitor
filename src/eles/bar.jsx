@@ -70,7 +70,7 @@ const BaseInfo = observer(() => {
       onMouseDown={() => { appWindow.startDragging(); }}
       className="flex-1 flex items-center cursor-move"
     >
-      <div>{sysData.name}</div>
+      <div className="text-xl">{sysData.name}</div>
       {/* <div>
         {'processes: '}
         {sysData.processes.count}

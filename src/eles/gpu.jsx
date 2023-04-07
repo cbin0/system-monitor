@@ -23,30 +23,26 @@ export default observer(({ className }) => {
   };
 
   return (
-    <>
-      {/* TODO: read configure for width & height */}
-      <Card className={`${className || ''} shrink-0 flex flex-col`}>
-        <Card.Title brand={gpu.brand} className="w-full">
-          <i className="i-bi-gpu-card text-2xl" />
-          <span className="text-md pl-2">{gpu.name || '...'}</span>
-        </Card.Title>
-        <Card.Body className="flex flex-col">
-          <div className="mx-2 square relative">
-            <Radial
-              options={gpuUsageChart}
-              // className="w-full absolute top-[50%] translate-y-[-50%]"
-            >
-              <RadialCenter>
-                <span className="text-4xl text-slate-200">
-                  {gpu.usage.value}
-                  <span className="text-2xl ml-1">%</span>
-                </span>
-              </RadialCenter>
-            </Radial>
-          </div>
-          <GpuDtail />
-        </Card.Body>
-      </Card>
-    </>
+    <Card className={`${className || ''} shrink-0 flex flex-col`}>
+      <Card.Title brand={gpu.brand} className="w-full">
+        <i className="i-bi-gpu-card text-2xl" />
+        <span className="text-md pl-2">{gpu.name || '...'}</span>
+      </Card.Title>
+      <Card.Body className="flex flex-col">
+        <div className="mx-2 square relative">
+          <Radial
+            options={gpuUsageChart}
+          >
+            <RadialCenter>
+              <span className="text-4xl text-slate-200">
+                {gpu.usage.value}
+                <span className="text-2xl ml-1">%</span>
+              </span>
+            </RadialCenter>
+          </Radial>
+        </div>
+        <GpuDtail />
+      </Card.Body>
+    </Card>
   );
 });
