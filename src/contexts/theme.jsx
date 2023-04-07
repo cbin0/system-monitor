@@ -2,7 +2,6 @@ import React, {
   createContext, useEffect, useRef
 } from 'react';
 import createTheme from 'store/theme';
-import settings from 'store/settings';
 
 const themeEle = document.createElement('style');
 
@@ -26,5 +25,3 @@ export function ThemeProvider({ children }) {
     </div>
   );
 }
-
-theme.themeName = settings.theme;

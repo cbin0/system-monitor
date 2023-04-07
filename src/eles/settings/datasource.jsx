@@ -27,7 +27,7 @@ export default observer(({ className }) => {
       <Listbox
         value={settings.ds.id}
         onChange={(v) => {
-          settings.changeDs(v); resolver.restart();
+          settings.ds = v; resolver.restart();
         }}
       >
         <div className="relative mt-1">

@@ -1,8 +1,8 @@
 import { makeAutoObservable, action } from 'mobx';
-import settings from './settings';
 
 export default (themeEle) => {
   return makeAutoObservable({
+    theme: 'dark',
     loaded: false,
     set themeName(name) {
       const temp = { ...this.themeVars };
@@ -12,7 +12,7 @@ export default (themeEle) => {
         });
         this._preflight = styles.default.preflight;
         this.classNames = styles.default.classNames;
-        settings.theme = name;
+        this.theme = name;
         this.themeVars = temp;
         this.loaded = true;
       })).catch(() => {
@@ -20,7 +20,7 @@ export default (themeEle) => {
       });
     },
     get themeName() {
-      return settings.theme;
+      return this.theme;
     },
     classNames: {},
     _preflight: '',

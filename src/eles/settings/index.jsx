@@ -6,7 +6,7 @@ import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
 import { Popover, RadioGroup } from '@headlessui/react';
 import { ThemeContext } from 'contexts/theme';
-import settings, { messages } from 'store/settings';
+import settings, { themes, intervals, messages } from 'store/settings';
 import { Transition, Radios } from 'eles/comps';
 import DataSource from './datasource';
 
@@ -20,10 +20,7 @@ const ThemeForm = observer(() => {
         onChange={(v) => {
           theme.themeName = v;
         }}
-        options={[
-          ['light', 'light', 'active'],
-          ['dark', 'dark', 'bg-stone-8 text-stone-1']
-        ]}
+        options={Object.keys(themes).map((x) => { return [x, themes[x], x === 'dark' ? 'bg-stone-8 text-stone-1' : 'active']; })}
       />
     </div>
   );
@@ -45,7 +42,7 @@ const ChangeInterval = observer(({ className }) => {
             message: `Don't forget to update the interval of ${settings.ds.name}`
           });
         })}
-        options={[[250, '250ms'], [500, '500ms'], [1000, '1s'], [2000, '2s'], [5000, '5s'], [10000, '10s']]}
+        options={Object.keys(intervals).map((x) => { return [+x, intervals[x]]; })}
       />
     </div>
   );

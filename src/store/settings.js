@@ -1,9 +1,17 @@
 import { appWindow, LogicalSize } from '@tauri-apps/api/window';
+import {
+  exists, readTextFile, BaseDirectory, writeTextFile, createDir
+} from '@tauri-apps/api/fs';
 import remove from 'lodash/remove';
 import debounce from 'lodash/debounce';
 import {
-  makeAutoObservable, observable, action
+  makeAutoObservable, observable, action, autorun, toJS
 } from 'mobx';
+import get from 'lodash/get';
+import { theme } from 'contexts/theme';
+
+const configDir = 'config';
+const configFile = `${configDir}/headlesssystemmonitor.conf`;
 
 export const brands = [
   [/(nvidia|geforce|gtx|rtx|grace|\wgx)/i, 'nvidia'],
@@ -11,7 +19,18 @@ export const brands = [
   [/(intel|core|arc|i\d)/i, 'intel']
 ];
 
-export const datasources = {
+export const themes = { light: 'light', dark: 'dark' };
+
+export const intervals = {
+  250: '250ms',
+  500: '500ms',
+  1000: '1s',
+  2000: '2s',
+  5000: '5s',
+  10000: '10s'
+};
+
+export const datasources = makeAutoObservable({
   libHM: {
     id: 'libHM',
     name: 'Libre Hardware Monitor',
@@ -35,7 +54,7 @@ export const datasources = {
     config: {
       logFile: {
         name: 'log file',
-        value: 'E:/program/MSI Afterburner/HardwareMonitoring.hml',
+        value: '',
         type: 'string'
       }
       // TODO: header map
@@ -46,7 +65,7 @@ export const datasources = {
       // }
     }
   }
-};
+});
 
 export const messages = observable({
   timeouts: {},
@@ -78,21 +97,15 @@ const applySize = debounce((t) => {
   });
 }, 400);
 
-// TODO: read configuration
 const settings = makeAutoObservable({
-  // _ds: datasources.libHM,
-  _ds: datasources.msiAB,
+  _ds: 'libHM',
   get ds() {
-    return this._ds;
+    return datasources[this._ds];
   },
   set ds(id) {
-    this.changeDs(id);
-  },
-  changeDs(id) {
-    this._ds = datasources[id];
+    if (id in datasources) this._ds = id;
   },
 
-  theme: 'dark',
   interval: 1000,
   maxSnapshots: 20,
   windowSize: {
@@ -120,5 +133,59 @@ appWindow.onResized(debounce(({ payload: size }) => {
 }, 100));
 
 settings.getWindowSize();
+
+(async () => {
+  try {
+    if (!await exists(configFile, { dir: BaseDirectory.AppConfig })) {
+      theme.themeName = 'light';
+    } else {
+      const conf = JSON.parse(await readTextFile(configFile, { dir: BaseDirectory.AppConfig }));
+      action(() => {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const k of Object.keys(datasources)) {
+          const config = get(conf, `datasources.${k}.config`);
+          if (config) datasources[k].config = config;
+        }
+        if (conf.ds in datasources) settings.ds = conf.ds;
+        if (conf.theme in themes) theme.themeName = conf.theme;
+        if (conf.interval in intervals) settings.interval = conf.interval;
+      })();
+    }
+    autorun(async () => {
+      const content = {
+        ds: settings.ds.id,
+        theme: theme.themeName,
+        interval: settings.interval,
+        datasources: toJS(datasources)
+      };
+      try {
+        await createDir(configDir, { dir: BaseDirectory.AppConfig, recursive: true });
+        await writeTextFile(configFile, JSON.stringify(content), { dir: BaseDirectory.AppConfig });
+        // messages.push({
+        //   id: 'save configuration',
+        //   type: 'success',
+        //   title: 'Configuration saved successfully',
+        //   message: `${configFile}`
+        // });
+      } catch (e) {
+        messages.push({
+          id: 'save configuration',
+          type: 'error',
+          title: 'Configuration saved failed',
+          message: `${e}`
+        });
+      }
+    }, {
+      delay: 1000
+    });
+  } catch (e) {
+    messages.push({
+      id: 'read configuration',
+      type: 'error',
+      title: 'Can\'t read configuration',
+      message: `${e}`
+    });
+  }
+})();
 
 export default settings;

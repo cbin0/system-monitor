@@ -50,7 +50,7 @@ const ErrorMessage = observer(() => {
               <div className="p1">
                 <i className={`${getMsIcon(type)} text-3xl`} />
               </div>
-              <div className="py1 px2 flex-1">
+              <div className="py1 px2 flex-1 break-all">
                 <div className="text-2xl">{title}</div>
                 <div className="text-lg">{message}</div>
               </div>
