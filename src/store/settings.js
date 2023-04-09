@@ -84,15 +84,15 @@ export const messages = observable({
 
 const applySize = debounce((t) => {
   appWindow.setSize(new LogicalSize(
-    t.windowSize.width,
-    t.windowSize.height
+    t.window.width,
+    t.window.height
   )).then(() => {
-    t.getWindowSize();
+    t.getWindow();
     messages.push({
       id: 'change window size',
       type: 'success',
       title: 'Window size',
-      message: `Width: ${t.windowSize.width}, Height: ${t.windowSize.height}`
+      message: `Width: ${t.window.width}, Height: ${t.window.height}`
     });
   });
 }, 400);
@@ -108,20 +108,32 @@ const settings = makeAutoObservable({
 
   interval: 1000,
   maxSnapshots: 20,
-  windowSize: {
-    width: 1400,
-    height: 900
+  coresOpen: false,
+  toggleCoresOpen() {
+    this.coresOpen = !this.coresOpen;
   },
-  getWindowSize() {
-    appWindow.innerSize().then(action((x) => {
-      this.windowSize = x;
-    }));
+
+  window: {
+    width: 0,
+    height: 0,
+    x: 0,
+    y: 0
   },
-  setWindowSize({ width, height }) {
-    this.windowSize = {
-      width: Math.min(+width || this.windowSize.width, 10000),
-      height: Math.min(+height || this.windowSize.height, 5000)
-    };
+  getWindow() {
+    Promise.all([
+      appWindow.innerSize(),
+      appWindow.outerPosition()
+    ]).then(([size, position]) => {
+      this.setWindow({ ...size, ...position });
+    });
+  },
+  setWindow({
+    width, height, x, y
+  }) {
+    this.window.width = Math.min(+width || this.window.width, 10000);
+    this.window.height = Math.min(+height || this.window.height, 10000);
+    this.window.x = Math.min(+x || this.window.x, 10000);
+    this.window.y = Math.min(+y || this.window.y, 10000);
   },
   applySize() {
     applySize(this);
@@ -129,10 +141,14 @@ const settings = makeAutoObservable({
 });
 
 appWindow.onResized(debounce(({ payload: size }) => {
-  settings.setWindowSize(size);
+  settings.setWindow(size);
 }, 100));
 
-settings.getWindowSize();
+appWindow.onMoved(debounce(({ payload: position }) => {
+  settings.setWindow(position);
+}, 100));
+
+settings.getWindow();
 
 (async () => {
   try {
@@ -149,6 +165,7 @@ settings.getWindowSize();
         if (conf.ds in datasources) settings.ds = conf.ds;
         if (conf.theme in themes) theme.themeName = conf.theme;
         if (conf.interval in intervals) settings.interval = conf.interval;
+        if (conf.coresOpen) settings.coresOpen = !!conf.coresOpen;
       })();
     }
     autorun(async () => {
@@ -156,7 +173,9 @@ settings.getWindowSize();
         ds: settings.ds.id,
         theme: theme.themeName,
         interval: settings.interval,
-        datasources: toJS(datasources)
+        datasources: toJS(datasources),
+        window: toJS(settings.window),
+        coresOpen: settings.coresOpen
       };
       try {
         await createDir(configDir, { dir: BaseDirectory.AppConfig, recursive: true });

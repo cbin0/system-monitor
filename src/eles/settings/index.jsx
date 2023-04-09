@@ -1,10 +1,10 @@
 import React, {
-  useRef, useContext, useEffect, useState
+  useRef, useContext
 } from 'react';
 import { exit, relaunch } from '@tauri-apps/api/process';
 import { action } from 'mobx';
 import { observer } from 'mobx-react-lite';
-import { Popover, RadioGroup } from '@headlessui/react';
+import { Popover } from '@headlessui/react';
 import { ThemeContext } from 'contexts/theme';
 import settings, { themes, intervals, messages } from 'store/settings';
 import { Transition, Radios } from 'eles/comps';
@@ -49,9 +49,9 @@ const ChangeInterval = observer(({ className }) => {
 });
 
 const SizeForm = observer(({ className }) => {
-  const setWindowSize = useRef((e) => {
+  const setWindow = useRef((e) => {
     e.preventDefault();
-    settings.setWindowSize({
+    settings.setWindow({
       [e.target.name]: e.target.value
     });
     settings.applySize();
@@ -69,9 +69,9 @@ const SizeForm = observer(({ className }) => {
                 <input
                   type="number"
                   name={x}
-                  onChange={setWindowSize.current}
+                  onChange={setWindow.current}
                   className="ml2 px2 py1 b-1 w30"
-                  value={settings.windowSize[x]}
+                  value={settings.window[x]}
                 />
               </div>
             );

@@ -1,4 +1,4 @@
-import { makeAutoObservable, computed } from 'mobx';
+import { makeAutoObservable } from 'mobx';
 import settings, { brands } from './settings';
 
 function getBrand(d) {

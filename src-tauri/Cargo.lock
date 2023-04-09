@@ -2670,7 +2670,7 @@ dependencies = [
 
 [[package]]
 name = "tauri-app"
-version = "0.0.1"
+version = "0.0.2"
 dependencies = [
  "rev_buf_reader",
  "serde",

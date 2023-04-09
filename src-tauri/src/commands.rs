@@ -3,10 +3,7 @@ use serde_json::{json, Value};
 use std::io::BufReader;
 use std::vec;
 use std::{fs::File, io::BufRead};
-use sysinfo::{
-    CpuExt, CpuRefreshKind, DiskExt, NetworkExt, NetworksExt, ProcessExt, ProcessRefreshKind,
-    RefreshKind, System, SystemExt, UserExt,
-};
+use sysinfo::{CpuExt, CpuRefreshKind, DiskExt, RefreshKind, System, SystemExt, UserExt};
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]

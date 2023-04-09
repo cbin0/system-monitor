@@ -1,8 +1,9 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { observer } from 'mobx-react-lite';
 import get from 'lodash/get';
 import { SysDataContext } from 'contexts/sysdata';
 import { ThemeContext } from 'contexts/theme';
+import settings from 'store/settings';
 import Line, { HighlightLine } from 'charts/line';
 
 function Snapshots({
@@ -48,7 +49,7 @@ function Snapshots({
 
 export default observer(() => {
   const { cpu } = useContext(SysDataContext);
-  const [show, setShow] = useState(false);
+  const show = settings.coresOpen;
   let w = 25;
   if (cpu.cores.length <= 12) {
     switch (cpu.cores.length) {
@@ -60,7 +61,11 @@ export default observer(() => {
   return (
     <>
       <div className="p4 flex gap4">
-        <button className="whitespace-nowrap hover:opacity-80 flex items-center" type="button" onClick={() => { setShow(!show); }}>
+        <button
+          className="whitespace-nowrap hover:opacity-80 flex items-center"
+          type="button"
+          onClick={() => { settings.toggleCoresOpen(); }}
+        >
           <i className={`text-2xl mr2 ${show ? 'i-ic:round-keyboard-arrow-down' : 'i-ic:round-keyboard-arrow-right'}`} />
           <span>
             {'Cores: '}
